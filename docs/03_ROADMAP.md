@@ -44,10 +44,10 @@ Bağlam: public Overpass sunucuları 12–14 Kasım'da güvenilmez çıktı (ev 
 - **Kontrol noktası:** İnternetsiz POI çekimiyle (geocode hariç) koordinattan PDF çıkıyor. ✅ (`--network none` ile doğrulandı)
 
 ### 4a–4d
-- [ ] 4a: Container'a HTTP katmanı (`qgis/server.py`, FastAPI, `POST /generate`), `Invoke-RestMethod` ile elle test
-- [ ] 4a: `docker-compose.yml`: n8n ve qgis servisleri aynı network'te; qgis servisine `data/` volume'u bağlı (`OSM_PBF_PATH`)
-- [ ] 4a: Workflow: Webhook → HTTP Request (`/generate`) → Respond to Webhook
-- [ ] 4b: Hata yönetimi: geocode bulunamadı, Türkiye dışı girdi, pbf dosyası yok/okunamıyor
+- [x] 4a: Container'a HTTP katmanı (`qgis/server.py`, FastAPI, `POST /generate`, `GET /files/{job}/{name}`, `GET /health`), `Invoke-RestMethod` ile elle test edildi (2026-11-15: Antalya merkezi → PDF ~22 sn, LLM özeti dahil; Atina ve deniz noktası → doğru hata mesajı; `/files` path traversal → 404)
+- [x] 4a: `docker-compose.yml`: qgis servisi uvicorn ile 8000 portunda, `data/` volume'u bağlı (`OSM_PBF_PATH`). Ağ kararı: n8n ayrı container'da çalışıyor (bu compose'da değil), qgis'e `http://host.docker.internal:8000` ile erişiyor
+- [ ] 4a: Workflow (`n8n/workflow.json`): Webhook → HTTP Request (`/generate`) → If → Respond to Webhook. Dosya hazır, n8n'de import + uçtan uca test bekliyor
+- [ ] 4b: Hata yönetimi: geocode bulunamadı, Türkiye dışı girdi, pbf dosyası yok/okunamıyor. Şu an kullanıcı girdisi hataları (exit 2) da HTTP 500 dönüyor → 422'ye eşlenecek
 - [ ] 4c: Teslimat: Drive'a yükle / Gmail ile gönder
 - [ ] 4d: Tetikleyici: Google Sheet yeni satır; Sheet'e durum + PDF linki yaz
 

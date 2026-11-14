@@ -1,2 +1,4 @@
 # Extra Python packages on top of the qgis/qgis image (PyQGIS, requests are provided by the image).
 openai==3.49.0  # OpenAI-compatible client, used for Groq and other compatible LLM APIs
+fastapi==0.162.4   # HTTP API for n8n (server.py)
+uvicorn==0.54.0    # ASGI server

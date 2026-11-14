@@ -20,4 +20,6 @@ ENV PATH=/opt/venv/bin:$PATH
 WORKDIR /app
 COPY . /app
 
-CMD ["python3", "test_qgis.py"]
+# HTTP API for n8n (server.py). Smoke test: docker compose run --rm qgis python3 test_qgis.py
+EXPOSE 8000
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]

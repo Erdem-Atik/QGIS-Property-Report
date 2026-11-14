@@ -16,4 +16,6 @@ services:
       - ./samples:/samples:ro
       - ./data:/data:ro  # Geofabrik extract (scripts/download_extract.ps1); not in the image
       - ./cache:/cache   # Nominatim response cache
-    command: ["python3", "test_qgis.py"]
+    ports:
+      - "8000:8000"    # report API (server.py)
+    command: ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]
