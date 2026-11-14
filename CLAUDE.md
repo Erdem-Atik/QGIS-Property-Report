@@ -105,6 +105,6 @@ qgis-property-report/
 
 **Ortam:** Windows 11 + PowerShell. Unix/macOS komutları değil PowerShell/cmd kullan (`Copy-Item`, `dir`, `Invoke-RestMethod`; `cp`, `ls`, `curl` değil; gerekirse `curl.exe`). Docker Desktop kullanılıyor, n8n Docker'da lokalde çalışıyor. Docker volume için `"${PWD}:/data"`.
 
-- **Güncel faz: Faz 4 (n8n otomasyonu).** Faz 0–3 tamam (Faz 2'deki POI adımı Overpass ile yapılmıştı). 4.0 (POI kaynağı geçişi → yerel Geofabrik extract'ı) tamam (2026-11-14). Sıradaki: 4a Webhook → qgis container'da FastAPI servisi (`POST /generate`) → PDF; 4b hata yönetimi; 4c Drive/Gmail teslimat; 4d Google Sheet tetikleyici + durum yazma. Detay: `docs/03_ROADMAP.md`.
+- **Güncel faz: Faz 4 (n8n otomasyonu).** Faz 0–3 tamam (Faz 2'deki POI adımı Overpass ile yapılmıştı). 4.0 (POI kaynağı geçişi → yerel Geofabrik extract'ı) tamam (2026-11-14). 4a (Webhook → qgis container'da FastAPI `POST /generate` → PDF linki; n8n, `host.docker.internal:8000` üzerinden) tamam (2026-11-15). Sıradaki: 4b hata yönetimi; 4c Drive/Gmail teslimat; 4d Google Sheet tetikleyici + durum yazma. Detay: `docs/03_ROADMAP.md`.
 
 - **Sistem Konfigürasyonu:** Windows 11 Pro 25H2 (build 26200.8039), Intel Core i7-13700H (2.40 GHz), 64 GB RAM, x64. Shell: PowerShell / cmd (Windows komutları kullan; Unix/macOS komutları değil).
