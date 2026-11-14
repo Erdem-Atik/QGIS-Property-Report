@@ -4,6 +4,8 @@ Turns an address or coordinate into a map-based PDF location report (nearby amen
 straight-line distances, 500 m / 1 km radius analysis) using headless QGIS (PyQGIS)
 and OpenStreetMap data.
 
+**Coverage: Türkiye only.** Locations outside Türkiye are rejected with a clear error.
+
 > Work in progress. Full documentation follows in a later phase.
 
 ## LLM settings (AI location summary)
@@ -31,9 +33,22 @@ Only Groq has been tested so far. Behaviour:
 
 ## Data sources and limitations
 
-- Map data and basemap © OpenStreetMap contributors.
-- POIs are queried from the Overpass API. Public Overpass instances are rate-limited and
-  occasionally unavailable; responses are cached locally. Sample responses are bundled for
-  offline demos. Data snapshot date: 2026-11-11 (OSM base timestamps 05:30–05:34 UTC,
-  bundled responses in `samples/overpass_cache/`).
+- Map data and basemap © OpenStreetMap contributors (ODbL).
+- POIs are read from a local copy of the [Geofabrik Türkiye extract](https://download.geofabrik.de/europe/turkey.html)
+  (`turkey-latest.osm.pbf`, ~620 MB). No third-party POI API is called, so POI lookup works offline.
+  The extract is not part of the repository; download it once:
+
+  ```powershell
+  .\scripts\download_extract.ps1          # -> data\turkey-latest.osm.pbf (MD5-verified)
+  ```
+
+  `docker-compose.yml` mounts `./data` read-only into the container (`OSM_PBF_PATH`).
+- Both OSM nodes and areas (closed ways / multipolygons, e.g. beaches, supermarket buildings)
+  are used. Distances to areas are measured to their nearest edge.
+- The OSM data date of the extract is shown in every report's source note.
+  Bundled samples (`samples/poi/`, `samples/output/`) use OSM data of 2026-11-12.
+- One POI lookup scans the whole extract: about 8–10 s per report.
+- Results depend on OpenStreetMap tagging quality (e.g. a place tagged as a cafe is counted as a cafe).
+- A location with no OSM data around it (outside the extract, or at sea) is reported as an error,
+  never as "0 POIs".
 - Distances are straight-line, not walking routes.

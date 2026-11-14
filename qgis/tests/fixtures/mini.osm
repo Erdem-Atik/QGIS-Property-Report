@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Tiny hand-made OSM file for poi_provider tests. Centre: 36.9000, 30.7000. -->
+<osm version="0.6" generator="hand-made test fixture">
+  <!-- ~100 m east: restaurant -->
+  <node id="1" version="1" lat="36.9000" lon="30.7011">
+    <tag k="amenity" v="restaurant"/>
+    <tag k="name" v="Test Lokanta"/>
+    <tag k="name:en" v="Test Restaurant"/>
+  </node>
+  <!-- ~200 m north: bus stop -->
+  <node id="2" version="1" lat="36.9018" lon="30.7000">
+    <tag k="highway" v="bus_stop"/>
+    <tag k="name" v="Durak 1"/>
+  </node>
+  <!-- ~50 m: tagged, but not a report category -->
+  <node id="3" version="1" lat="36.9004" lon="30.7000">
+    <tag k="amenity" v="bench"/>
+  </node>
+  <!-- inside the bbox prefilter, but ~2 km away: must be dropped by the metric test -->
+  <node id="4" version="1" lat="36.9130" lon="30.7160">
+    <tag k="amenity" v="cafe"/>
+    <tag k="name" v="Far Cafe"/>
+  </node>
+  <!-- ~150 m west: bus platform (public_transport + bus=yes) -->
+  <node id="5" version="1" lat="36.9000" lon="30.6983">
+    <tag k="public_transport" v="platform"/>
+    <tag k="bus" v="yes"/>
+    <tag k="name" v="Platform A"/>
+  </node>
+
+  <!-- beach polygon ~300-400 m south (closed way) -->
+  <node id="10" version="1" lat="36.8964" lon="30.6995"/>
+  <node id="11" version="1" lat="36.8964" lon="30.7005"/>
+  <node id="12" version="1" lat="36.8973" lon="30.7005"/>
+  <node id="13" version="1" lat="36.8973" lon="30.6995"/>
+  <way id="100" version="1">
+    <nd ref="10"/><nd ref="11"/><nd ref="12"/><nd ref="13"/><nd ref="10"/>
+    <tag k="natural" v="beach"/>
+    <tag k="name" v="Test Beach"/>
+  </way>
+
+  <!-- supermarket building ~500 m west (closed way) -->
+  <node id="20" version="1" lat="36.8998" lon="30.6942"/>
+  <node id="21" version="1" lat="36.8998" lon="30.6946"/>
+  <node id="22" version="1" lat="36.9002" lon="30.6946"/>
+  <node id="23" version="1" lat="36.9002" lon="30.6942"/>
+  <way id="101" version="1">
+    <nd ref="20"/><nd ref="21"/><nd ref="22"/><nd ref="23"/><nd ref="20"/>
+    <tag k="building" v="retail"/>
+    <tag k="shop" v="supermarket"/>
+    <tag k="name" v="Test Market"/>
+  </way>
+</osm>

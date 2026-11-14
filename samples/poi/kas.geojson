@@ -1,0 +1,2916 @@
+{
+ "type": "FeatureCollection",
+ "metadata": {
+  "source": "OpenStreetMap - Geofabrik Türkiye extract",
+  "extract_file": "turkey-latest.osm.pbf",
+  "extract_date": "2026-11-12T21:23:05Z",
+  "radius_m": 1500,
+  "osm_features_in_radius": 1562,
+  "invalid_geometries_skipped": 1,
+  "seconds": 8.6,
+  "location": {
+   "name": "Kas Harbour Villa",
+   "lat": 36.2018,
+   "lon": 29.6377
+  },
+  "attribution": "© OpenStreetMap contributors, ODbL"
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Onur Eczanesi",
+    "category": "pharmacy",
+    "osm_id": "node/1113362018"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6396888,
+     36.1995783
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Smiley's Cafe & Bar",
+    "category": "restaurant",
+    "osm_id": "node/1373008123"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.639896,
+     36.1988202
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "CarrefourSA",
+    "category": "supermarket",
+    "osm_id": "node/1537279175"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6387989,
+     36.2014983
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Lola Restaurant",
+    "category": "restaurant",
+    "osm_id": "node/1537279682"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6417323,
+     36.1991935
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Ata Cafe Sarpedon Burger & Kumpir",
+    "category": "restaurant",
+    "osm_id": "node/1537279708"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6416765,
+     36.1993265
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Kaşık Mantı",
+    "category": "restaurant",
+    "osm_id": "node/1537279731"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6413121,
+     36.1995109
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "BİM",
+    "category": "supermarket",
+    "osm_id": "node/1537282188"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6385197,
+     36.2013179
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "restaurant",
+    "osm_id": "node/1790336892"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6289937,
+     36.2059797
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "restaurant",
+    "osm_id": "node/1790336894"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6292766,
+     36.2059613
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Sardunya Beach Restaurant",
+    "category": "restaurant",
+    "osm_id": "node/2082705953"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6380127,
+     36.1990013
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "bi lokma \"Mama's Kitchen\"",
+    "category": "restaurant",
+    "osm_id": "node/2752361251"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6424994,
+     36.1986539
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Natur-el Turkish Kitchen",
+    "category": "restaurant",
+    "osm_id": "node/2754598842"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6418232,
+     36.1992955
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Mercan",
+    "category": "restaurant",
+    "osm_id": "node/2962599935"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6419305,
+     36.1986669
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Gossi",
+    "category": "restaurant",
+    "osm_id": "node/2962599956"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6434696,
+     36.1982216
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Emre Restaurant",
+    "category": "restaurant",
+    "osm_id": "node/2962599958"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6401883,
+     36.2001848
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Ehlikeyf Meyhanesi Kaş",
+    "category": "restaurant",
+    "osm_id": "node/2964404924"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6419506,
+     36.1989202
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Fichi",
+    "category": "restaurant",
+    "osm_id": "node/2969874528"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6416322,
+     36.2005478
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Corner",
+    "category": "restaurant",
+    "osm_id": "node/2969874529"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6416644,
+     36.2004698
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Migros",
+    "category": "supermarket",
+    "osm_id": "node/3736551798"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6383578,
+     36.201572
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Derya Beach",
+    "category": "restaurant",
+    "osm_id": "node/3789270662"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6437704,
+     36.1971807
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Efendi Restaurant",
+    "category": "restaurant",
+    "osm_id": "node/4513846390"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6418503,
+     36.1989662
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Hayta",
+    "category": "restaurant",
+    "osm_id": "node/4937523721"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6420684,
+     36.1999658
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Maya Steak House",
+    "category": "restaurant",
+    "osm_id": "node/4937971521"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.64201,
+     36.1997515
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Birlik Yufka",
+    "category": "restaurant",
+    "osm_id": "node/4941994321"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6410566,
+     36.2008463
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Hünkar",
+    "category": "restaurant",
+    "osm_id": "node/5026461936"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6407724,
+     36.2005545
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Bahçe",
+    "category": "restaurant",
+    "osm_id": "node/5026470594"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.642623,
+     36.1994972
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Bahçe Balık",
+    "category": "restaurant",
+    "osm_id": "node/5026471303"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6426304,
+     36.1991464
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Aile Çay Bahçesi",
+    "category": "cafe",
+    "osm_id": "node/5026473376"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6408598,
+     36.1997875
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Dolphin",
+    "category": "restaurant",
+    "osm_id": "node/5026473971"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6424015,
+     36.1989593
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Noel Baba",
+    "category": "cafe",
+    "osm_id": "node/5026475647"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6411013,
+     36.1995366
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Kervan - pide ve kebap salonu",
+    "category": "restaurant",
+    "osm_id": "node/5289547622"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6386559,
+     36.2008827
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Şok",
+    "category": "supermarket",
+    "osm_id": "node/5886923447"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6522452,
+     36.2001403
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Bella Vita",
+    "category": "restaurant",
+    "osm_id": "node/5895985185"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6410536,
+     36.1995381
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "A101",
+    "category": "supermarket",
+    "osm_id": "node/6045627069"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.640182,
+     36.201745
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Panorama",
+    "category": "restaurant",
+    "osm_id": "node/6244979085"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.642481,
+     36.19837
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Akay Çay Bahçesi",
+    "category": "cafe",
+    "osm_id": "node/6286835517"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6399547,
+     36.2000166
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Havana Balıkevi",
+    "category": "restaurant",
+    "osm_id": "node/6694789786"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6409921,
+     36.2003659
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Oborus Momus",
+    "category": "cafe",
+    "osm_id": "node/6721156985"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6379835,
+     36.1993175
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Salkım Ocakbaşı Meyhane Kaş",
+    "category": "restaurant",
+    "osm_id": "node/6766678142"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6424772,
+     36.1992514
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Üzüm Kızı",
+    "category": "restaurant",
+    "osm_id": "node/6782988985"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.642285,
+     36.1991636
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Zulada Yim",
+    "category": "restaurant",
+    "osm_id": "node/6783575685"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6419859,
+     36.2002084
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "PASSARELLA",
+    "category": "restaurant",
+    "osm_id": "node/6784316785"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.630308,
+     36.2056823
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Medusa Hotel Restaurant",
+    "category": "restaurant",
+    "osm_id": "node/6814316792"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6450049,
+     36.1967402
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Kasim Ev Yemekleri",
+    "category": "restaurant",
+    "osm_id": "node/6815720685"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6426748,
+     36.1982674
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Hayat Eczanesi",
+    "category": "pharmacy",
+    "osm_id": "node/6909435234"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6388658,
+     36.2016851
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "2000 Restaurant",
+    "category": "restaurant",
+    "osm_id": "node/7131637685"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6395967,
+     36.1996605
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Biiisstt Coffee & Sandwiches",
+    "category": "cafe",
+    "osm_id": "node/7133836185"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6423378,
+     36.1984772
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Small House Restaurant Kaş",
+    "category": "restaurant",
+    "osm_id": "node/7139851185"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6396402,
+     36.2003078
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Yeşil Restaurant",
+    "category": "restaurant",
+    "osm_id": "node/7154672085"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6391191,
+     36.2002204
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Lezzet Durağı Restaurant",
+    "category": "restaurant",
+    "osm_id": "node/7166223885"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6382211,
+     36.2016319
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Şok",
+    "category": "supermarket",
+    "osm_id": "node/7674874198"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6390449,
+     36.200336
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Butka",
+    "category": "cafe",
+    "osm_id": "node/7674874202"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6410747,
+     36.2001036
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "restaurant",
+    "osm_id": "node/7674874208"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6384996,
+     36.1987141
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Çınarlar",
+    "category": "restaurant",
+    "osm_id": "node/7677929458"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6414601,
+     36.1998005
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Türk Kahvesi",
+    "category": "cafe",
+    "osm_id": "node/7677929464"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6404062,
+     36.1999747
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Kaş Eczanesi",
+    "category": "pharmacy",
+    "osm_id": "node/7677929468"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6395048,
+     36.199348
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "köfteci Yusuf",
+    "category": "cafe",
+    "osm_id": "node/7781246572"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6393739,
+     36.1993066
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "bus_stop",
+    "osm_id": "node/7992606186"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6398438,
+     36.1996191
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "bus_stop",
+    "osm_id": "node/7992972285"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6386761,
+     36.2016438
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "bus_stop",
+    "osm_id": "node/7996688187"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6406167,
+     36.2003891
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Cinarlar Garden Restaurant",
+    "category": "cafe",
+    "osm_id": "node/7996688485"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.640936,
+     36.199353
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "bus_stop",
+    "osm_id": "node/7997203687"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6389181,
+     36.2007227
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "bus_stop",
+    "osm_id": "node/7997223585"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6309879,
+     36.2005254
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Ülke Eczanesi",
+    "category": "pharmacy",
+    "osm_id": "node/7997799585"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6397337,
+     36.199888
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Tostçu mesut",
+    "category": "cafe",
+    "osm_id": "node/8000437587"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.637654,
+     36.2021998
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Bijout Boutique cafe",
+    "category": "restaurant",
+    "osm_id": "node/8019444788"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6422573,
+     36.1995766
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Ally Restaurant",
+    "category": "restaurant",
+    "osm_id": "node/8019448785"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6419792,
+     36.1993316
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Oz Nazilli Restaurant",
+    "category": "restaurant",
+    "osm_id": "node/8019448886"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6387859,
+     36.2006447
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Mama Africa Coffee Co.",
+    "category": "cafe",
+    "osm_id": "node/8019448986"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6416556,
+     36.2006987
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Cinarlar pizza & pide house",
+    "category": "cafe",
+    "osm_id": "node/8305263518"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6415481,
+     36.1997549
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Bekos",
+    "category": "restaurant",
+    "osm_id": "node/8325379418"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6422222,
+     36.1985186
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Oburus Momus",
+    "category": "restaurant",
+    "osm_id": "node/8325379419"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6423484,
+     36.1982678
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Bi uğra",
+    "category": "restaurant",
+    "osm_id": "node/8325379519"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6427698,
+     36.1995667
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Masuk Devr-i Meyhane",
+    "category": "restaurant",
+    "osm_id": "node/8325379520"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6422436,
+     36.1984177
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Sempati",
+    "category": "restaurant",
+    "osm_id": "node/8325395017"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6419448,
+     36.1993923
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Coşdum",
+    "category": "cafe",
+    "osm_id": "node/8556257517"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6525607,
+     36.1985474
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "kushane",
+    "category": "cafe",
+    "osm_id": "node/8577990417"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6395459,
+     36.2019751
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "bus_stop",
+    "osm_id": "node/8730233243"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6216639,
+     36.1993631
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Dudu Mutfak",
+    "category": "cafe",
+    "osm_id": "node/8847739417"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6423444,
+     36.1986981
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Demeti Kas",
+    "category": "cafe",
+    "osm_id": "node/8847740917"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6427003,
+     36.1993859
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Pisekar",
+    "category": "cafe",
+    "osm_id": "node/8857303718"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6375425,
+     36.1993105
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Fika Garden",
+    "category": "cafe",
+    "osm_id": "node/8863277317"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6423137,
+     36.1997125
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Godo Coffee & More",
+    "category": "cafe",
+    "osm_id": "node/8866183217"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6429229,
+     36.1995097
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Sardelaki",
+    "category": "restaurant",
+    "osm_id": "node/9166017717"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6394574,
+     36.1986217
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Spoon Coffee",
+    "category": "cafe",
+    "osm_id": "node/9237316326"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6444884,
+     36.1972722
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Çınaraltı",
+    "category": "cafe",
+    "osm_id": "node/9370205417"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6415884,
+     36.1995354
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Kas Lounge",
+    "category": "cafe",
+    "osm_id": "node/9563555755"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6382914,
+     36.1990675
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Hira Pattisserie",
+    "category": "cafe",
+    "osm_id": "node/9569126080"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6517305,
+     36.1998625
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "A101",
+    "category": "supermarket",
+    "osm_id": "node/9580718748"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6513946,
+     36.2006698
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "EGE",
+    "category": "cafe",
+    "osm_id": "node/9592819656"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.638466,
+     36.2014882
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "cafe",
+    "osm_id": "node/9592819660"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6527951,
+     36.1987548
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "A101",
+    "category": "supermarket",
+    "osm_id": "node/9592819661"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6525981,
+     36.1987737
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "A101",
+    "category": "supermarket",
+    "osm_id": "node/9621681927"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6376123,
+     36.2041365
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "decatria",
+    "category": "cafe",
+    "osm_id": "node/9621681929"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6371569,
+     36.204248
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Nur",
+    "category": "cafe",
+    "osm_id": "node/9621681964"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6392572,
+     36.2000166
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Tatli Dükkani Dessert Shop",
+    "category": "cafe",
+    "osm_id": "node/9695696619"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6389475,
+     36.2004458
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "L'apéro Kaş",
+    "category": "restaurant",
+    "osm_id": "node/9722361917"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6428882,
+     36.1994253
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Bi Lokma",
+    "category": "restaurant",
+    "osm_id": "node/9722479217"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6369502,
+     36.2020481
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "supermarket",
+    "osm_id": "node/9801729417"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6397657,
+     36.2017444
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "bus_stop",
+    "osm_id": "node/9952864849"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6540596,
+     36.2007497
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "bus_stop",
+    "osm_id": "node/9953246559"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6361354,
+     36.2044159
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "bus_stop",
+    "osm_id": "node/9965186669"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6380251,
+     36.2030773
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "mint.",
+    "category": "restaurant",
+    "osm_id": "node/10040314913"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6415281,
+     36.2008168
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Dilan Cafe",
+    "category": "cafe",
+    "osm_id": "node/10096040517"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6408418,
+     36.2003994
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Hashi Noodle And Sushi",
+    "category": "restaurant",
+    "osm_id": "node/10289536591"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6407629,
+     36.2006021
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Yemen Kahvesi",
+    "category": "cafe",
+    "osm_id": "node/10296492229"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6402966,
+     36.1996155
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Gloria Jean's",
+    "category": "cafe",
+    "osm_id": "node/10296492230"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.640208,
+     36.1996082
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Ora",
+    "category": "restaurant",
+    "osm_id": "node/10702051095"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6396682,
+     36.1992539
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Manos Greek Tavern",
+    "category": "restaurant",
+    "osm_id": "node/10721664076"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6410229,
+     36.2008405
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Orkide Eczanesi",
+    "category": "pharmacy",
+    "osm_id": "node/10760869615"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6404198,
+     36.2018453
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "cafe",
+    "osm_id": "node/10917040386"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6244117,
+     36.2005742
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Ruhi Bey Meyhanesi",
+    "category": "restaurant",
+    "osm_id": "node/10979667205"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6425921,
+     36.1990626
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Pika",
+    "category": "cafe",
+    "osm_id": "node/11003447105"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6434718,
+     36.198204
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Charms Coffee",
+    "category": "cafe",
+    "osm_id": "node/11059309101"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6404157,
+     36.1998103
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "CAFE CORNER",
+    "category": "cafe",
+    "osm_id": "node/11262965638"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6416499,
+     36.2004022
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Muhtar",
+    "category": "supermarket",
+    "osm_id": "node/11422759669"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6405347,
+     36.2010641
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Migros jet",
+    "category": "supermarket",
+    "osm_id": "node/11472483569"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6387944,
+     36.2016656
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Muhtar",
+    "category": "supermarket",
+    "osm_id": "node/11473174369"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6398716,
+     36.1990713
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Mey’la",
+    "category": "restaurant",
+    "osm_id": "node/11874636569"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6423701,
+     36.1981468
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Kaptan Pide",
+    "category": "cafe",
+    "osm_id": "node/11877316270"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6378867,
+     36.2017061
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Mia Dolce Vita",
+    "category": "cafe",
+    "osm_id": "node/11913686469"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6416165,
+     36.1994486
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Nokta Cafe",
+    "category": "cafe",
+    "osm_id": "node/11914019169"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.642212,
+     36.1994574
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Dürüm Evi Mehmet Usta",
+    "category": "cafe",
+    "osm_id": "node/11956077069"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6404065,
+     36.2007069
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Giant Stride",
+    "category": "cafe",
+    "osm_id": "node/12291357463"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6414127,
+     36.2010371
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Giant Stride",
+    "category": "cafe",
+    "osm_id": "node/12291378758"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6414127,
+     36.201037
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "bus_stop",
+    "osm_id": "node/12306986072"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6511174,
+     36.2012674
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Kas Gulsen",
+    "category": "restaurant",
+    "osm_id": "node/12881178501"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6388739,
+     36.2012109
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Misti Fresh Drinks & Cocktails",
+    "category": "cafe",
+    "osm_id": "node/13078663260"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6408511,
+     36.2010085
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Kaş Kuruköprü Çorbacısı",
+    "category": "restaurant",
+    "osm_id": "node/13078663262"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6413372,
+     36.2003899
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Lora",
+    "category": "restaurant",
+    "osm_id": "node/13197944138"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6437684,
+     36.1995097
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Leman's Deli",
+    "category": "restaurant",
+    "osm_id": "node/13208653295"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.639976,
+     36.2019551
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Pişi Kahvaltı",
+    "category": "restaurant",
+    "osm_id": "node/13240283824"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6421801,
+     36.1990762
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "SPOKO COFFEE & CAKE & SANDWICH",
+    "category": "cafe",
+    "osm_id": "node/13250239301"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6385246,
+     36.1999326
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Atom Büfe",
+    "category": "cafe",
+    "osm_id": "node/13603268149"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6409098,
+     36.2004064
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Zühtü",
+    "category": "restaurant",
+    "osm_id": "node/13603400780"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.64238,
+     36.199619
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Sunrise Breakfast",
+    "category": "cafe",
+    "osm_id": "node/13731897801"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6287632,
+     36.2064375
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Kaş Gurme Falafel",
+    "category": "restaurant",
+    "osm_id": "node/13752156301"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6410939,
+     36.2010668
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Coflow coffee",
+    "category": "cafe",
+    "osm_id": "node/14079958860"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6392988,
+     36.2003866
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "KAŞ ANDİFLİ MH",
+    "category": "bus_stop",
+    "osm_id": "node/14247036718"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.639812,
+     36.205333
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Вкусный и недорогой турецкий чай",
+    "category": "cafe",
+    "osm_id": "node/14298689901"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6406999,
+     36.2004329
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Tzatziki",
+    "category": "restaurant",
+    "osm_id": "node/14309209156"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6414341,
+     36.199699
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Bugün Kahvaltı Kaş",
+    "category": "cafe",
+    "osm_id": "node/14367444802"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.640274,
+     36.1998185
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Yali restaurant дешево",
+    "category": "cafe",
+    "osm_id": "node/14370650101"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6394758,
+     36.1997864
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "İnceboğaz Plajı",
+    "category": "beach",
+    "osm_id": "way/194938249"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.6239067,
+        36.1995815
+       ],
+       [
+        29.6239182,
+        36.1996623
+       ],
+       [
+        29.6239429,
+        36.1997902
+       ],
+       [
+        29.6243836,
+        36.1999011
+       ],
+       [
+        29.6244752,
+        36.1999793
+       ],
+       [
+        29.6246845,
+        36.2000603
+       ],
+       [
+        29.6247364,
+        36.199975
+       ],
+       [
+        29.6247778,
+        36.1998961
+       ],
+       [
+        29.6242723,
+        36.1997338
+       ],
+       [
+        29.6240665,
+        36.1996315
+       ],
+       [
+        29.6239319,
+        36.1994341
+       ],
+       [
+        29.6239067,
+        36.1995815
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Küçük Çakıl Plajı",
+    "category": "beach",
+    "osm_id": "way/292728284"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.6441196,
+        36.197309
+       ],
+       [
+        29.6440861,
+        36.1973936
+       ],
+       [
+        29.6441083,
+        36.1974619
+       ],
+       [
+        29.6441147,
+        36.1975363
+       ],
+       [
+        29.6441357,
+        36.197531
+       ],
+       [
+        29.644166,
+        36.1975233
+       ],
+       [
+        29.6442216,
+        36.1973805
+       ],
+       [
+        29.6442742,
+        36.197285
+       ],
+       [
+        29.6441196,
+        36.197309
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Sako",
+    "category": "restaurant",
+    "osm_id": "way/292883210"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.642311,
+        36.198925
+       ],
+       [
+        29.6422911,
+        36.1988079
+       ],
+       [
+        29.6423738,
+        36.1987987
+       ],
+       [
+        29.6423938,
+        36.1989158
+       ],
+       [
+        29.642311,
+        36.198925
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "İnceboğaz Plajı",
+    "category": "beach",
+    "osm_id": "way/390192202"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.6243074,
+        36.2008582
+       ],
+       [
+        29.6242818,
+        36.2008219
+       ],
+       [
+        29.6242857,
+        36.200767
+       ],
+       [
+        29.6243422,
+        36.2007213
+       ],
+       [
+        29.6243628,
+        36.2006343
+       ],
+       [
+        29.624438,
+        36.2006379
+       ],
+       [
+        29.6244998,
+        36.2006409
+       ],
+       [
+        29.6245355,
+        36.2007088
+       ],
+       [
+        29.6246138,
+        36.200733
+       ],
+       [
+        29.6246589,
+        36.2007763
+       ],
+       [
+        29.6245869,
+        36.2007804
+       ],
+       [
+        29.6245548,
+        36.2007338
+       ],
+       [
+        29.6244482,
+        36.2007431
+       ],
+       [
+        29.6243074,
+        36.2008582
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Pell's",
+    "category": "restaurant",
+    "osm_id": "way/577131977"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.6420789,
+        36.2002459
+       ],
+       [
+        29.6421953,
+        36.2002384
+       ],
+       [
+        29.6421833,
+        36.2001172
+       ],
+       [
+        29.6421683,
+        36.2001182
+       ],
+       [
+        29.6420668,
+        36.2001247
+       ],
+       [
+        29.6420789,
+        36.2002459
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "beach",
+    "osm_id": "way/580326336"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.6218605,
+        36.2070138
+       ],
+       [
+        29.6218479,
+        36.2069224
+       ],
+       [
+        29.6218961,
+        36.2069318
+       ],
+       [
+        29.6220423,
+        36.2068738
+       ],
+       [
+        29.6222569,
+        36.2067454
+       ],
+       [
+        29.6222669,
+        36.2067714
+       ],
+       [
+        29.6222899,
+        36.2070762
+       ],
+       [
+        29.6219128,
+        36.2071329
+       ],
+       [
+        29.6218605,
+        36.2070138
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Likya Park Cafe",
+    "category": "cafe",
+    "osm_id": "way/1040535712"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.641276,
+        36.2022019
+       ],
+       [
+        29.6412811,
+        36.2022096
+       ],
+       [
+        29.6412827,
+        36.2022184
+       ],
+       [
+        29.6412805,
+        36.202227
+       ],
+       [
+        29.6412749,
+        36.2022345
+       ],
+       [
+        29.6412664,
+        36.2022401
+       ],
+       [
+        29.6412561,
+        36.2022431
+       ],
+       [
+        29.6412461,
+        36.2022431
+       ],
+       [
+        29.6412365,
+        36.2022407
+       ],
+       [
+        29.6412284,
+        36.202236
+       ],
+       [
+        29.6412224,
+        36.2022295
+       ],
+       [
+        29.6412193,
+        36.2022218
+       ],
+       [
+        29.6412193,
+        36.2022137
+       ],
+       [
+        29.6412224,
+        36.202206
+       ],
+       [
+        29.6412283,
+        36.2021994
+       ],
+       [
+        29.6412364,
+        36.2021947
+       ],
+       [
+        29.6412469,
+        36.2021921
+       ],
+       [
+        29.6412578,
+        36.2021926
+       ],
+       [
+        29.6412679,
+        36.2021959
+       ],
+       [
+        29.641276,
+        36.2022019
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Leymona Beach & Cafe",
+    "category": "restaurant",
+    "osm_id": "way/1174896191"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.6369416,
+        36.1992103
+       ],
+       [
+        29.6369586,
+        36.1989123
+       ],
+       [
+        29.6370044,
+        36.198895
+       ],
+       [
+        29.6373241,
+        36.1988779
+       ],
+       [
+        29.6372654,
+        36.1992149
+       ],
+       [
+        29.6369416,
+        36.1992103
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "cafe",
+    "osm_id": "way/1174896197"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.6368389,
+        36.2025388
+       ],
+       [
+        29.6367795,
+        36.2024601
+       ],
+       [
+        29.6368662,
+        36.2024174
+       ],
+       [
+        29.6369256,
+        36.2024961
+       ],
+       [
+        29.6368389,
+        36.2025388
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "restaurant",
+    "osm_id": "way/1174896211"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.6284375,
+        36.2061655
+       ],
+       [
+        29.6284203,
+        36.206086
+       ],
+       [
+        29.628679,
+        36.2060496
+       ],
+       [
+        29.6287837,
+        36.2060349
+       ],
+       [
+        29.6288009,
+        36.2061145
+       ],
+       [
+        29.6284375,
+        36.2061655
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "restaurant",
+    "osm_id": "way/1174896212"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.6288344,
+        36.2060712
+       ],
+       [
+        29.6288067,
+        36.2060037
+       ],
+       [
+        29.6290449,
+        36.2059437
+       ],
+       [
+        29.6290702,
+        36.2060126
+       ],
+       [
+        29.6288344,
+        36.2060712
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "restaurant",
+    "osm_id": "way/1174896213"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.6291717,
+        36.2060535
+       ],
+       [
+        29.6291449,
+        36.205985
+       ],
+       [
+        29.6293159,
+        36.2059416
+       ],
+       [
+        29.6295442,
+        36.2058837
+       ],
+       [
+        29.6295689,
+        36.2059508
+       ],
+       [
+        29.6291717,
+        36.2060535
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "restaurant",
+    "osm_id": "way/1174896214"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.6299151,
+        36.2058293
+       ],
+       [
+        29.6298881,
+        36.2057578
+       ],
+       [
+        29.6297857,
+        36.205783
+       ],
+       [
+        29.6295797,
+        36.2058336
+       ],
+       [
+        29.6296067,
+        36.2059051
+       ],
+       [
+        29.6299151,
+        36.2058293
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Migros",
+    "category": "supermarket",
+    "osm_id": "way/1174896215"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.6305074,
+        36.2056295
+       ],
+       [
+        29.6304621,
+        36.2055701
+       ],
+       [
+        29.6304907,
+        36.2055559
+       ],
+       [
+        29.6305075,
+        36.2055475
+       ],
+       [
+        29.6304912,
+        36.2055261
+       ],
+       [
+        29.630618,
+        36.2054629
+       ],
+       [
+        29.6306354,
+        36.2054856
+       ],
+       [
+        29.6306704,
+        36.2054682
+       ],
+       [
+        29.630712,
+        36.2055229
+       ],
+       [
+        29.6305074,
+        36.2056295
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "category": "restaurant",
+    "osm_id": "way/1174896216"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.6299846,
+        36.205845
+       ],
+       [
+        29.6299532,
+        36.2057627
+       ],
+       [
+        29.6303393,
+        36.2056613
+       ],
+       [
+        29.630372,
+        36.2057468
+       ],
+       [
+        29.6299846,
+        36.205845
+       ]
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}

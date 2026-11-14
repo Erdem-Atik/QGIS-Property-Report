@@ -4,4 +4,9 @@ __pycache__/
 .venv/
 out/
 cache/
+# OSM extracts (~620 MB): never commit, mounted into Docker as a volume
+data/
+osm_test/
+*.osm.pbf
+*.osm.pbf.part
 docs\SistemBilgisi.md

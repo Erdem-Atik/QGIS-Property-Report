@@ -1,0 +1,282 @@
+{
+ "type": "FeatureCollection",
+ "metadata": {
+  "source": "OpenStreetMap - Geofabrik Türkiye extract",
+  "extract_file": "turkey-latest.osm.pbf",
+  "extract_date": "2026-11-12T21:23:05Z",
+  "radius_m": 1500,
+  "osm_features_in_radius": 529,
+  "invalid_geometries_skipped": 0,
+  "seconds": 8.3,
+  "location": {
+   "name": "Elmali Countryside House",
+   "lat": 36.7375,
+   "lon": 29.9172
+  },
+  "attribution": "© OpenStreetMap contributors, ODbL"
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Migros",
+    "category": "supermarket",
+    "osm_id": "node/10147963417"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.9209802,
+     36.734985
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "BİM",
+    "category": "supermarket",
+    "osm_id": "node/10147963517"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.9213852,
+     36.7340801
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Işik Pide",
+    "category": "restaurant",
+    "osm_id": "node/10211328922"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.9217637,
+     36.7343509
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Elmalı Sultan Sofrası",
+    "category": "restaurant",
+    "osm_id": "node/11367917399"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.917236,
+     36.739809
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Melis Eczanesi",
+    "category": "pharmacy",
+    "osm_id": "node/11593816469"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.9131604,
+     36.7427072
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Deniz Eczanesi",
+    "category": "pharmacy",
+    "osm_id": "node/11593816470"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.9135639,
+     36.7433678
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Derya Eczanesi",
+    "category": "pharmacy",
+    "osm_id": "node/11593816471"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.9165355,
+     36.7397552
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "İşlekel Eczanesi",
+    "category": "pharmacy",
+    "osm_id": "node/11593816569"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.9155474,
+     36.7413303
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Demiröz Eczanesi",
+    "category": "pharmacy",
+    "osm_id": "node/11593816570"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.9187394,
+     36.7383824
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Marmara Eczanesi",
+    "category": "pharmacy",
+    "osm_id": "node/11593816571"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.9235175,
+     36.7338395
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Gökkaya Eczanesi",
+    "category": "pharmacy",
+    "osm_id": "node/11593816769"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.9177223,
+     36.7388371
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Ümit Eczanesi",
+    "category": "pharmacy",
+    "osm_id": "node/11593816770"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.9199332,
+     36.7362884
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Hayat Eczanesi",
+    "category": "pharmacy",
+    "osm_id": "node/11593816869"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.9200534,
+     36.7361104
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Orman Çeşmesi",
+    "category": "bus_stop",
+    "osm_id": "node/14031223805"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.9192169,
+     36.7377676
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Elmalı Otogar",
+    "category": "bus_stop",
+    "osm_id": "node/14247041714"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.9172953,
+     36.7371873
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Çamlık Park",
+    "category": "restaurant",
+    "osm_id": "way/1302549220"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        29.9270335,
+        36.7362508
+       ],
+       [
+        29.9270579,
+        36.7360097
+       ],
+       [
+        29.9272002,
+        36.7360195
+       ],
+       [
+        29.9271596,
+        36.7362573
+       ],
+       [
+        29.9270335,
+        36.7362508
+       ]
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}
