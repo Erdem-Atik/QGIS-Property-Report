@@ -48,7 +48,9 @@ Bağlam: public Overpass sunucuları 12–14 Kasım'da güvenilmez çıktı (ev 
 - [x] 4a: `docker-compose.yml`: qgis servisi uvicorn ile 8000 portunda, `data/` volume'u bağlı (`OSM_PBF_PATH`). Ağ kararı: n8n ayrı container'da çalışıyor (bu compose'da değil), qgis'e `http://host.docker.internal:8000` ile erişiyor
 - [x] 4a: Workflow (`n8n/workflow.json`): Webhook → HTTP Request (`/generate`) → If → Respond to Webhook. n8n'e import edildi ve publish edildi; uçtan uca test (2026-11-15, `POST /webhook/property-report`): Kaş → 200 + PDF linki (~18 sn), Atina → 500 + "outside Türkiye", deniz noktası → 500 + "No OpenStreetMap data". Not: dönen `pdf_url` n8n'in gördüğü `host.docker.internal` adresini kullanıyor (4c'de n8n dosyayı bu adresten indirecek)
 - **Kontrol noktası (4a):** Webhook'a koordinat gönderince PDF linki dönüyor. ✅
-- [ ] 4b: Hata yönetimi: geocode bulunamadı, Türkiye dışı girdi, pbf dosyası yok/okunamıyor. Şu an kullanıcı girdisi hataları (exit 2) da HTTP 500 dönüyor → 422'ye eşlenecek
+- [x] 4b: Hata yönetimi (2026-11-15). Tek hata biçimi `{"status":"error","job","error_code","error"}`; `generate_report.py` hatayı `error.json`'a yazar, `server.py` `error_code` → HTTP eşler: 422 `invalid_input` / `outside_coverage` / `address_not_found` / `no_osm_data`, 502 `geocoding_unavailable`, 503 `extract_unavailable` (istek QGIS başlamadan reddedilir; `/health` da kontrol eder), 504 `timeout` (540 sn), 500 `processing_error` (`stderr_tail` ile). API artık `address` da kabul ediyor. n8n: qgis kapalıysa 503 `service_unreachable`. Tablo: README → "Report API". Canlı test: tüm kodlar API'de, adres/bulunamayan adres/Türkiye dışı/boş gövde/servis kapalı n8n webhook'unda doğrulandı; `tests/test_server.py` (44 test geçiyor)
+- [ ] 4b takip: `geocoding_unavailable` mesajı ham `requests` hatasını içeriyor; Sheet'e yazılacaksa 4d'de kısaltılabilir
+- **Kontrol noktası (4b):** Her hata türü n8n webhook'unda doğru HTTP kodu + anlaşılır mesajla dönüyor. ✅
 - [ ] 4c: Teslimat: Drive'a yükle / Gmail ile gönder
 - [ ] 4d: Tetikleyici: Google Sheet yeni satır; Sheet'e durum + PDF linki yaz
 

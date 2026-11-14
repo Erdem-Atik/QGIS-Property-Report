@@ -41,7 +41,11 @@ _NON_TAG_FIELDS = {"osm_id", "osm_way_id", "other_tags"}
 
 
 class PoiProviderError(RuntimeError):
-    """The extract is missing or cannot be read."""
+    """Reading POIs from the extract failed."""
+
+
+class ExtractUnavailableError(PoiProviderError):
+    """The extract file is missing or cannot be opened (a deployment problem)."""
 
 
 class NoOsmDataError(PoiProviderError):
@@ -193,14 +197,14 @@ def fetch_pois(lat: float, lon: float, radius_m: int = SEARCH_RADIUS_M,
     """
     pbf = pbf or OSM_PBF_PATH
     if not os.path.isfile(pbf):
-        raise PoiProviderError(
+        raise ExtractUnavailableError(
             f"OSM extract not found: {pbf}. Download it with scripts/download_extract.ps1 "
             "and set OSM_PBF_PATH.")
     t0 = time.time()
     try:
         ds = gdal.OpenEx(pbf, gdal.OF_VECTOR, allowed_drivers=["OSM"])
     except RuntimeError as exc:
-        raise PoiProviderError(f"Cannot read OSM extract {pbf}: {exc}") from exc
+        raise ExtractUnavailableError(f"Cannot read OSM extract {pbf}: {exc}") from exc
     # Only parse the layers we need (same mechanism ogr2ogr uses).
     ds.ExecuteSQL(f"SET interest_layers = {','.join(LAYERS)}")
     box = bbox(lat, lon, radius_m)

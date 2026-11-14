@@ -8,6 +8,46 @@ and OpenStreetMap data.
 
 > Work in progress. Full documentation follows in a later phase.
 
+## Report API
+
+`docker compose up -d --build` starts the report service on port 8000 (FastAPI, `qgis/server.py`).
+The n8n workflow (`n8n/workflow.json`) exposes the same contract on its webhook
+(`POST /webhook/property-report`).
+
+```powershell
+# By coordinates
+Invoke-RestMethod -Method Post -Uri http://localhost:8000/generate -ContentType "application/json" `
+  -Body '{"lat": 36.2018, "lon": 29.6377, "name": "Kas Harbour Villa"}'
+
+# By address (geocoded with Nominatim; name is optional)
+Invoke-RestMethod -Method Post -Uri http://localhost:8000/generate -ContentType "application/json" `
+  -Body '{"address": "Kaleici, Antalya", "name": "Old Town Apartment"}'
+```
+
+Success (`200`) returns `job`, `pdf_url`, `summary_url` and the list of output files.
+`GET /files/{job}/{name}` downloads a file; `GET /health` also checks that the OSM extract is present.
+
+Every error has the same shape, so callers can branch on `error_code`:
+
+```json
+{"status": "error", "job": "20261115-...", "error_code": "outside_coverage",
+ "error": "Location 37.98, 23.73 is outside Türkiye. Coverage: Türkiye only."}
+```
+
+| HTTP | `error_code` | Meaning |
+|---|---|---|
+| 422 | `invalid_input` | Missing/invalid fields, malformed JSON, both `address` and `lat`/`lon` given |
+| 422 | `outside_coverage` | Location or address is outside Türkiye |
+| 422 | `address_not_found` | Nominatim found no match for the address |
+| 422 | `no_osm_data` | No OSM data around the point (e.g. at sea); never reported as "0 POIs" |
+| 502 | `geocoding_unavailable` | Nominatim unreachable or returned an error (retry later) |
+| 503 | `extract_unavailable` | OSM extract missing or unreadable (deployment problem) |
+| 503 | `service_unreachable` | n8n only: the report service is not running |
+| 504 | `timeout` | Report generation exceeded `REPORT_TIMEOUT_S` (default 540 s) |
+| 500 | `processing_error` | Unexpected failure; the response includes `stderr_tail` for debugging |
+
+4xx errors are input problems (fix the request); 5xx errors are service problems (retry or check the deployment).
+
 ## LLM settings (AI location summary)
 
 The report includes a 3–4 sentence location summary written by an LLM. The model only

@@ -14,8 +14,11 @@ Examples (inside the container):
         --poi /samples/poi/kas.geojson --out /out/kas
 
 Exit codes: 0 ok, 1 processing error (incl. missing/unreadable extract),
-2 invalid input (incl. outside Türkiye, no OSM data at the location),
+2 invalid input (incl. outside Türkiye, address not found, no OSM data at the location),
 3 external service error (geocoding).
+
+On failure the error is also written to <out>/error.json as
+{"error_code": "...", "error": "...", "exit_code": n}; see ERROR_EXIT_CODES.
 """
 import argparse
 import json
@@ -49,15 +52,39 @@ def parse_args(argv=None):
     return args
 
 
-def fail(msg: str, code: int) -> int:
+# Machine-readable error codes (used by server.py / n8n) and their process exit codes.
+ERROR_EXIT_CODES = {
+    "invalid_input": 2,           # bad coordinates, missing POI file
+    "outside_coverage": 2,        # location or address outside Türkiye
+    "address_not_found": 2,       # Nominatim found nothing
+    "no_osm_data": 2,             # no OSM data around the point (outside extract / at sea)
+    "geocoding_unavailable": 3,   # Nominatim unreachable or returned an error
+    "extract_unavailable": 1,     # OSM extract missing or unreadable
+    "processing_error": 1,        # anything else during analysis / rendering
+}
+
+
+def fail(out_dir: str, error_code: str, msg: str) -> int:
+    """Print the error, write <out_dir>/error.json and return the exit code."""
+    exit_code = ERROR_EXIT_CODES[error_code]
     print(f"ERROR: {msg}", file=sys.stderr)
-    return code
+    try:
+        os.makedirs(out_dir, exist_ok=True)
+        with open(os.path.join(out_dir, "error.json"), "w", encoding="utf-8") as fh:
+            json.dump({"error_code": error_code, "error": msg, "exit_code": exit_code},
+                      fh, indent=2, ensure_ascii=False)
+    except OSError as exc:  # the exit code still tells the caller what happened
+        print(f"WARNING: could not write error.json: {exc}", file=sys.stderr)
+    return exit_code
 
 
 def main(argv=None) -> int:
     args = parse_args(argv)
     logging.basicConfig(level=logging.INFO, stream=sys.stderr,
                         format="%(levelname)s %(name)s: %(message)s")
+    error_json = os.path.join(args.out, "error.json")
+    if os.path.exists(error_json):
+        os.remove(error_json)  # never leave a stale error from an earlier run
 
     from report import llm, osm, poi_provider
 
@@ -67,9 +94,11 @@ def main(argv=None) -> int:
         try:
             hit = osm.geocode(args.address)
         except osm.OutsideCoverageError as exc:
-            return fail(str(exc), 2)
+            return fail(args.out, "outside_coverage", str(exc))
+        except osm.AddressNotFoundError as exc:
+            return fail(args.out, "address_not_found", str(exc))
         except osm.OsmError as exc:
-            return fail(str(exc), 3)
+            return fail(args.out, "geocoding_unavailable", str(exc))
         lat, lon, address = hit["lat"], hit["lon"], hit["display_name"]
         print(f"Geocoded: {address} -> {lat:.5f}, {lon:.5f}")
     name = args.name or args.address or f"{lat:.5f}, {lon:.5f}"
@@ -83,9 +112,12 @@ def main(argv=None) -> int:
 
     try:
         validate_lat_lon(lat, lon)
+    except ValueError as exc:
+        return fail(args.out, "invalid_input", str(exc))
+    try:
         validate_turkey(lat, lon)
     except ValueError as exc:
-        return fail(str(exc), 2)
+        return fail(args.out, "outside_coverage", str(exc))
 
     os.makedirs(args.out, exist_ok=True)
     gpkg = os.path.join(args.out, "analysis.gpkg")
@@ -99,7 +131,7 @@ def main(argv=None) -> int:
     poi_meta, poi_source = {}, None
     if args.poi:
         if not os.path.isfile(args.poi):
-            return fail(f"POI file not found: {args.poi}", 2)
+            return fail(args.out, "invalid_input", f"POI file not found: {args.poi}")
         poi_path = args.poi
         try:  # bundled samples carry the extract metadata; keep the date in the source note
             with open(poi_path, encoding="utf-8") as fh:
@@ -112,9 +144,11 @@ def main(argv=None) -> int:
         try:
             fc = poi_provider.fetch_pois(lat, lon)
         except poi_provider.NoOsmDataError as exc:
-            return fail(str(exc), 2)
+            return fail(args.out, "no_osm_data", str(exc))
+        except poi_provider.ExtractUnavailableError as exc:
+            return fail(args.out, "extract_unavailable", str(exc))
         except poi_provider.PoiProviderError as exc:
-            return fail(str(exc), 1)
+            return fail(args.out, "processing_error", str(exc))
         poi_meta = fc.pop("metadata")
         date = (poi_meta["extract_date"] or "date unknown")[:10]
         poi_source = f"OSM Geofabrik extract ({date})"
@@ -154,7 +188,7 @@ def main(argv=None) -> int:
         try:
             summary = run()
         except Exception as exc:  # report and exit non-zero for automation (n8n)
-            return fail(str(exc), 1)
+            return fail(args.out, "processing_error", str(exc))
         finally:
             QgsProject.instance().clear()
 

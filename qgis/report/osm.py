@@ -23,7 +23,11 @@ COUNTRY_CODE = "tr"  # coverage: Türkiye only
 
 
 class OsmError(RuntimeError):
-    pass
+    """Nominatim could not be reached or returned an error."""
+
+
+class AddressNotFoundError(OsmError):
+    """Nominatim answered, but found nothing for the address (an input problem)."""
 
 
 class OutsideCoverageError(OsmError):
@@ -102,7 +106,7 @@ def geocode(address: str) -> dict:
         except requests.RequestException as exc:
             raise OsmError(f"Nominatim request failed: {exc}") from exc
         if not hits:
-            raise OsmError(f"Address not found: {address!r}")
+            raise AddressNotFoundError(f"Address not found: {address!r}")
         hit = hits[0]
         result = {
             "lat": float(hit["lat"]),

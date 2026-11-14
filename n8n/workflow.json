@@ -25,9 +25,9 @@
         "url": "http://host.docker.internal:8000/generate",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ lat: $json.body.lat, lon: $json.body.lon, name: $json.body.name }) }}",
+        "jsonBody": "={{ JSON.stringify({ lat: $json.body.lat, lon: $json.body.lon, address: $json.body.address, name: $json.body.name }) }}",
         "options": {
-          "timeout": 600000,
+          "timeout": 630000,
           "response": {
             "response": {
               "fullResponse": true,
@@ -40,6 +40,7 @@
       "name": "Generate Report",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
+      "onError": "continueRegularOutput",
       "position": [
         240,
         0
@@ -97,9 +98,9 @@
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={{ $json.body }}",
+        "responseBody": "={{ $json.body ?? { status: 'error', job: null, error_code: 'service_unreachable', error: 'Report service is not reachable: ' + ($json.error?.message ?? 'unknown error') } }}",
         "options": {
-          "responseCode": "={{ $json.statusCode }}"
+          "responseCode": "={{ $json.statusCode ?? 503 }}"
         }
       },
       "id": "a1f0c6e2-0005-4c1a-9a01-000000000005",
