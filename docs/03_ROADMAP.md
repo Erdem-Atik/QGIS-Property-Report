@@ -51,7 +51,8 @@ Bağlam: public Overpass sunucuları 12–14 Kasım'da güvenilmez çıktı (ev 
 - [x] 4b: Hata yönetimi (2026-11-15). Tek hata biçimi `{"status":"error","job","error_code","error"}`; `generate_report.py` hatayı `error.json`'a yazar, `server.py` `error_code` → HTTP eşler: 422 `invalid_input` / `outside_coverage` / `address_not_found` / `no_osm_data`, 502 `geocoding_unavailable`, 503 `extract_unavailable` (istek QGIS başlamadan reddedilir; `/health` da kontrol eder), 504 `timeout` (540 sn), 500 `processing_error` (`stderr_tail` ile). API artık `address` da kabul ediyor. n8n: qgis kapalıysa 503 `service_unreachable`. Tablo: README → "Report API". Canlı test: tüm kodlar API'de, adres/bulunamayan adres/Türkiye dışı/boş gövde/servis kapalı n8n webhook'unda doğrulandı; `tests/test_server.py` (44 test geçiyor)
 - [ ] 4b takip: `geocoding_unavailable` mesajı ham `requests` hatasını içeriyor; Sheet'e yazılacaksa 4d'de kısaltılabilir
 - **Kontrol noktası (4b):** Her hata türü n8n webhook'unda doğru HTTP kodu + anlaşılır mesajla dönüyor. ✅
-- [ ] 4c: Teslimat: Drive'a yükle / Gmail ile gönder
+- [x] 4c: Teslimat: Drive + link (karar 2026-11-15; Gmail yok). Akış: Succeeded? → Download PDF (`pdf_url`) → Upload to Drive (`Property Reports` klasörü, dosya adı `Location Report - <name|address|lat, lon> - <tarih>.pdf`) → Respond OK (+ `drive_file_id`, `drive_url`). Paylaşım kısıtlı: Drive varsayılanı (yalnızca sahibi), izin değiştirilmez. İndirme/yükleme hatası → 502 `delivery_failed` + `pdf_url`. Credential (`googleDriveOAuth2Api`) ve klasör ID'si repoya girmez; import sonrası node'da seçilir. Uçtan uca test (2026-11-15): Kaş → 200 + `drive_url`
+- [ ] 4c takip: `delivery_failed` dalı canlı test edilmedi (Drive hatasını güvenli şekilde tetiklemek zor); 4d'de Sheet'e durum yazılırken bu dal da Sheet'e yazmalı
 - [ ] 4d: Tetikleyici: Google Sheet yeni satır; Sheet'e durum + PDF linki yaz
 
 ## Faz 5 — Portföy paketi

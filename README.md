@@ -12,7 +12,12 @@ and OpenStreetMap data.
 
 `docker compose up -d --build` starts the report service on port 8000 (FastAPI, `qgis/server.py`).
 The n8n workflow (`n8n/workflow.json`) exposes the same contract on its webhook
-(`POST /webhook/property-report`).
+(`POST /webhook/property-report`) and also uploads the PDF to Google Drive: its success
+response adds `drive_file_id` and `drive_url`. The Drive file keeps Drive's default
+(private to the owner); no sharing permission is changed.
+
+After importing the workflow, select a Google Drive OAuth2 credential and the target folder
+in the **Upload to Drive** node (the file in the repo uploads to the Drive root).
 
 ```powershell
 # By coordinates
@@ -43,6 +48,7 @@ Every error has the same shape, so callers can branch on `error_code`:
 | 502 | `geocoding_unavailable` | Nominatim unreachable or returned an error (retry later) |
 | 503 | `extract_unavailable` | OSM extract missing or unreadable (deployment problem) |
 | 503 | `service_unreachable` | n8n only: the report service is not running |
+| 502 | `delivery_failed` | n8n only: the report was generated but the Drive upload failed; `pdf_url` is included |
 | 504 | `timeout` | Report generation exceeded `REPORT_TIMEOUT_S` (default 540 s) |
 | 500 | `processing_error` | Unexpected failure; the response includes `stderr_tail` for debugging |
 

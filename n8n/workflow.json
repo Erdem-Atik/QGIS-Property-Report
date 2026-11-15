@@ -13,10 +13,7 @@
       "name": "Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
-      "position": [
-        0,
-        0
-      ],
+      "position": [0, 0],
       "webhookId": "5b0e7f3c-property-report"
     },
     {
@@ -41,10 +38,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "onError": "continueRegularOutput",
-      "position": [
-        240,
-        0
-      ]
+      "position": [240, 0]
     },
     {
       "parameters": {
@@ -73,15 +67,57 @@
       "name": "Succeeded?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [
-        480,
-        0
-      ]
+      "position": [480, 0]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.body.pdf_url }}",
+        "options": {
+          "timeout": 60000,
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "data"
+            }
+          }
+        }
+      },
+      "id": "a1f0c6e2-0006-4c1a-9a01-000000000006",
+      "name": "Download PDF",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "onError": "continueErrorOutput",
+      "position": [720, -100]
+    },
+    {
+      "parameters": {
+        "name": "={{ 'Location Report - ' + ($('Webhook').item.json.body.name || $('Webhook').item.json.body.address || ($('Webhook').item.json.body.lat + ', ' + $('Webhook').item.json.body.lon)) + ' - ' + $now.toFormat('yyyy-MM-dd') + '.pdf' }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive",
+          "cachedResultName": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "id": "a1f0c6e2-0007-4c1a-9a01-000000000007",
+      "name": "Upload to Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "onError": "continueErrorOutput",
+      "position": [960, -100]
     },
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={{ $json.body }}",
+        "responseBody": "={{ { ...$('Generate Report').item.json.body, drive_file_id: $json.id, drive_url: 'https://drive.google.com/file/d/' + $json.id + '/view' } }}",
         "options": {
           "responseCode": 200
         }
@@ -90,10 +126,21 @@
       "name": "Respond OK",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
-      "position": [
-        720,
-        -100
-      ]
+      "position": [1200, -200]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'error', job: $('Generate Report').item.json.body.job, error_code: 'delivery_failed', error: 'Report was generated but could not be delivered to Google Drive: ' + ($json.error?.message ?? $json.error ?? 'unknown error'), pdf_url: $('Generate Report').item.json.body.pdf_url } }}",
+        "options": {
+          "responseCode": 502
+        }
+      },
+      "id": "a1f0c6e2-0008-4c1a-9a01-000000000008",
+      "name": "Respond Delivery Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1200, 0]
     },
     {
       "parameters": {
@@ -107,51 +154,32 @@
       "name": "Respond Error",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
-      "position": [
-        720,
-        100
-      ]
+      "position": [720, 200]
     }
   ],
   "connections": {
     "Webhook": {
-      "main": [
-        [
-          {
-            "node": "Generate Report",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+      "main": [[{ "node": "Generate Report", "type": "main", "index": 0 }]]
     },
     "Generate Report": {
-      "main": [
-        [
-          {
-            "node": "Succeeded?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+      "main": [[{ "node": "Succeeded?", "type": "main", "index": 0 }]]
     },
     "Succeeded?": {
       "main": [
-        [
-          {
-            "node": "Respond OK",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Respond Error",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        [{ "node": "Download PDF", "type": "main", "index": 0 }],
+        [{ "node": "Respond Error", "type": "main", "index": 0 }]
+      ]
+    },
+    "Download PDF": {
+      "main": [
+        [{ "node": "Upload to Drive", "type": "main", "index": 0 }],
+        [{ "node": "Respond Delivery Error", "type": "main", "index": 0 }]
+      ]
+    },
+    "Upload to Drive": {
+      "main": [
+        [{ "node": "Respond OK", "type": "main", "index": 0 }],
+        [{ "node": "Respond Delivery Error", "type": "main", "index": 0 }]
       ]
     }
   },
