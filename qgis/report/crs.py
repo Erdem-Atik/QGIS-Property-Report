@@ -24,6 +24,17 @@ def validate_lat_lon(lat: float, lon: float) -> None:
         raise ValueError(f"Longitude {lon} is outside -180..180.")
 
 
+# Rough Türkiye bounding box (lon_min, lat_min, lon_max, lat_max). Coarse at borders
+# and near Greek islands; points there that have no data fail later with "no OSM data".
+TURKEY_BBOX = (25.6, 35.8, 44.9, 42.2)
+
+
+def validate_turkey(lat: float, lon: float) -> None:
+    lon_min, lat_min, lon_max, lat_max = TURKEY_BBOX
+    if not (lat_min <= lat <= lat_max and lon_min <= lon <= lon_max):
+        raise ValueError(f"Location {lat}, {lon} is outside Türkiye. Coverage: Türkiye only.")
+
+
 def utm_epsg(lat: float, lon: float) -> int:
     """Return the WGS84 / UTM EPSG code for a coordinate (326xx north, 327xx south).
 

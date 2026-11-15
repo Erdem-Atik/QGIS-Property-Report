@@ -10,7 +10,16 @@ ENV QT_QPA_PLATFORM=offscreen \
 
 RUN mkdir -p -m 0700 /tmp/runtime-root
 
+# Extra packages go into a venv that still sees the system site-packages (PyQGIS),
+# so Debian-managed packages are never modified.
+COPY requirements.txt /tmp/requirements.txt
+RUN python3 -m venv --system-site-packages /opt/venv \
+ && /opt/venv/bin/pip install --no-cache-dir -r /tmp/requirements.txt
+ENV PATH=/opt/venv/bin:$PATH
+
 WORKDIR /app
 COPY . /app
 
-CMD ["python3", "test_qgis.py"]
+# HTTP API for n8n (server.py). Smoke test: docker compose run --rm qgis python3 test_qgis.py
+EXPOSE 8000
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]

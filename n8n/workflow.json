@@ -1,0 +1,257 @@
+{
+  "id": "propReportWh4a01",
+  "name": "Property Report - Webhook to Email",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "property-report",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "a1f0c6e2-0001-4c1a-9a01-000000000001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "5b0e7f3c-property-report"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "e1",
+              "leftValue": "={{ /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(String($json.body?.email ?? '').trim()) }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a1f0c6e2-0009-4c1a-9a01-000000000009",
+      "name": "Valid Email?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [220, 0]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'error', job: null, error_code: 'invalid_input', error: 'email: a valid recipient email address is required' } }}",
+        "options": {
+          "responseCode": 422
+        }
+      },
+      "id": "a1f0c6e2-0010-4c1a-9a01-000000000010",
+      "name": "Respond Invalid Email",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [440, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/generate",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ lat: $json.body.lat, lon: $json.body.lon, address: $json.body.address, name: $json.body.name }) }}",
+        "options": {
+          "timeout": 630000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "a1f0c6e2-0002-4c1a-9a01-000000000002",
+      "name": "Generate Report",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "onError": "continueRegularOutput",
+      "position": [440, -100]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.statusCode }}",
+              "rightValue": 200,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a1f0c6e2-0003-4c1a-9a01-000000000003",
+      "name": "Succeeded?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [660, -100]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.body ?? { status: 'error', job: null, error_code: 'service_unreachable', error: 'Report service is not reachable: ' + ($json.error?.message ?? 'unknown error') } }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode ?? 503 }}"
+        }
+      },
+      "id": "a1f0c6e2-0005-4c1a-9a01-000000000005",
+      "name": "Respond Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [880, 100]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.body.pdf_url }}",
+        "options": {
+          "timeout": 60000,
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "data"
+            }
+          }
+        }
+      },
+      "id": "a1f0c6e2-0006-4c1a-9a01-000000000006",
+      "name": "Download PDF",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "onError": "continueErrorOutput",
+      "position": [880, -200]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Give the attachment a readable name instead of report.pdf.\nconst req = $('Webhook').first().json.body;\nconst label = String(req.name || req.address || `${req.lat}, ${req.lon}`)\n  .replace(/[\\\\/:*?\"<>|]+/g, ' ').replace(/\\s+/g, ' ').trim().slice(0, 80);\nconst item = $input.first();\nitem.binary.data.fileName = `Location Report - ${label}.pdf`;\nitem.json.label = label;\nreturn [item];"
+      },
+      "id": "a1f0c6e2-0011-4c1a-9a01-000000000011",
+      "name": "Name Attachment",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "onError": "continueErrorOutput",
+      "position": [1100, -200]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ String($('Webhook').item.json.body.email).trim() }}",
+        "subject": "={{ 'Location report: ' + $json.label }}",
+        "emailType": "text",
+        "message": "={{ 'Hello,\\n\\nPlease find attached the location report for ' + $json.label + '.\\n\\nThe report shows nearby amenities within 500 m and 1 km, straight-line distances to the nearest place in each category, and a short location summary.\\n\\nCoverage: Türkiye only. Map data © OpenStreetMap contributors.\\n\\nReport ID: ' + $('Generate Report').item.json.body.job }}",
+        "options": {
+          "appendAttribution": false,
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {
+                "property": "data"
+              }
+            ]
+          }
+        }
+      },
+      "id": "a1f0c6e2-0007-4c1a-9a01-000000000007",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "onError": "continueErrorOutput",
+      "position": [1320, -200],
+      "webhookId": "c7d1e2f3-property-report-gmail"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { ...$('Generate Report').item.json.body, email_sent_to: String($('Webhook').item.json.body.email).trim(), email_message_id: $json.id } }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "a1f0c6e2-0004-4c1a-9a01-000000000004",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1540, -300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'error', job: $('Generate Report').item.json.body.job, error_code: 'delivery_failed', error: 'Report was generated but the email could not be sent: ' + ($json.error?.message ?? $json.error ?? 'unknown error'), pdf_url: $('Generate Report').item.json.body.pdf_url } }}",
+        "options": {
+          "responseCode": 502
+        }
+      },
+      "id": "a1f0c6e2-0008-4c1a-9a01-000000000008",
+      "name": "Respond Delivery Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1540, -100]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [[{ "node": "Valid Email?", "type": "main", "index": 0 }]]
+    },
+    "Valid Email?": {
+      "main": [
+        [{ "node": "Generate Report", "type": "main", "index": 0 }],
+        [{ "node": "Respond Invalid Email", "type": "main", "index": 0 }]
+      ]
+    },
+    "Generate Report": {
+      "main": [[{ "node": "Succeeded?", "type": "main", "index": 0 }]]
+    },
+    "Succeeded?": {
+      "main": [
+        [{ "node": "Download PDF", "type": "main", "index": 0 }],
+        [{ "node": "Respond Error", "type": "main", "index": 0 }]
+      ]
+    },
+    "Download PDF": {
+      "main": [
+        [{ "node": "Name Attachment", "type": "main", "index": 0 }],
+        [{ "node": "Respond Delivery Error", "type": "main", "index": 0 }]
+      ]
+    },
+    "Name Attachment": {
+      "main": [
+        [{ "node": "Send Email", "type": "main", "index": 0 }],
+        [{ "node": "Respond Delivery Error", "type": "main", "index": 0 }]
+      ]
+    },
+    "Send Email": {
+      "main": [
+        [{ "node": "Respond OK", "type": "main", "index": 0 }],
+        [{ "node": "Respond Delivery Error", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

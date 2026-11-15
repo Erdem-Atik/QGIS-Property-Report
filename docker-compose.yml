@@ -3,16 +3,19 @@ services:
     build: ./qgis
     image: qgis-property-report:dev
     env_file:
-      - path: .env          # optional: OSM_USER_AGENT, OVERPASS_URL (see .env.example)
+      - path: .env          # optional: OSM_USER_AGENT, LLM_* (see .env.example)
         required: false
     environment:
       QT_QPA_PLATFORM: offscreen
       REPORT_CACHE_DIR: /cache
+      OSM_PBF_PATH: /data/turkey-latest.osm.pbf
     working_dir: /app
     volumes:
       - ./qgis:/app      # live-edit scripts without rebuilding
       - ./out:/out       # generated reports (PDF, GPKG, JSON)
       - ./samples:/samples:ro
-      - ./samples/overpass_cache:/samples/overpass_cache  # writable: bundled demo responses
-      - ./cache:/cache   # Nominatim / Overpass response cache (default /cache/overpass)
-    command: ["python3", "test_qgis.py"]
+      - ./data:/data:ro  # Geofabrik extract (scripts/download_extract.ps1); not in the image
+      - ./cache:/cache   # Nominatim response cache
+    ports:
+      - "8000:8000"    # report API (server.py)
+    command: ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]
