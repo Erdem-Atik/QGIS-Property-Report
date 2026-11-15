@@ -2,7 +2,7 @@
 
 ## Bileşenler
 ```
-[Google Sheet / Webhook]
+[Webhook (POST: konum + e-posta)]
         │
         ▼
      [ n8n ]  ── orkestrasyon
@@ -10,7 +10,7 @@
         ├─► Nominatim (geocode)
         ├─► Python/PyQGIS container (POI okuma: yerel Geofabrik Türkiye extract'ı → analiz + harita PDF)
         ├─► LLM API (konum özeti)
-        └─► Google Drive / Gmail (teslimat)
+        └─► Gmail (teslimat: PDF ek olarak)
 ```
 
 ## Teknoloji seçimleri

@@ -26,8 +26,8 @@
 - [x] 3–4 cümlelik, abartısız konum özeti (halüsinasyon yok: sadece tablodaki verilere dayan)
 - [x] Özeti PDF layout'a ekle
 
-## Faz 4 — n8n otomasyonu (şu an burada)
-Ortam: n8n Docker'da lokalde çalışıyor. Sıra: 4.0 → 4a → 4b → 4c → 4d (önce çalışan minimum sürüm). Kodlama işleri Claude Code CLI'dan yapılır.
+## Faz 4 — n8n otomasyonu ✅
+Ortam: n8n Docker'da lokalde çalışıyor. Sıra: 4.0 → 4a → 4b → 4c (önce çalışan minimum sürüm). Kodlama işleri Claude Code CLI'dan yapılır.
 
 ### 4.0 — POI kaynağı geçişi: Overpass → yerel Geofabrik Türkiye extract'ı (karar: 2026-11-14)
 Bağlam: public Overpass sunucuları 12–14 Kasım'da güvenilmez çıktı (ev ağı ve hotspot'ta aynı sonuç). Kapsam yalnızca Türkiye. Ayrıntı: `02_ARCHITECTURE.md` → "POI veri kaynağı".
@@ -43,17 +43,17 @@ Bağlam: public Overpass sunucuları 12–14 Kasım'da güvenilmez çıktı (ev 
 - [ ] Takip: yeni kategoriler (park, istasyon, okul vb.): tablo/layout etkisi ayrıca değerlendirilecek
 - **Kontrol noktası:** İnternetsiz POI çekimiyle (geocode hariç) koordinattan PDF çıkıyor. ✅ (`--network none` ile doğrulandı)
 
-### 4a–4d
+### 4a–4c
 - [x] 4a: Container'a HTTP katmanı (`qgis/server.py`, FastAPI, `POST /generate`, `GET /files/{job}/{name}`, `GET /health`), `Invoke-RestMethod` ile elle test edildi (2026-11-15: Antalya merkezi → PDF ~22 sn, LLM özeti dahil; Atina ve deniz noktası → doğru hata mesajı; `/files` path traversal → 404)
 - [x] 4a: `docker-compose.yml`: qgis servisi uvicorn ile 8000 portunda, `data/` volume'u bağlı (`OSM_PBF_PATH`). Ağ kararı: n8n ayrı container'da çalışıyor (bu compose'da değil), qgis'e `http://host.docker.internal:8000` ile erişiyor
 - [x] 4a: Workflow (`n8n/workflow.json`): Webhook → HTTP Request (`/generate`) → If → Respond to Webhook. n8n'e import edildi ve publish edildi; uçtan uca test (2026-11-15, `POST /webhook/property-report`): Kaş → 200 + PDF linki (~18 sn), Atina → 500 + "outside Türkiye", deniz noktası → 500 + "No OpenStreetMap data". Not: dönen `pdf_url` n8n'in gördüğü `host.docker.internal` adresini kullanıyor (4c'de n8n dosyayı bu adresten indirecek)
 - **Kontrol noktası (4a):** Webhook'a koordinat gönderince PDF linki dönüyor. ✅
 - [x] 4b: Hata yönetimi (2026-11-15). Tek hata biçimi `{"status":"error","job","error_code","error"}`; `generate_report.py` hatayı `error.json`'a yazar, `server.py` `error_code` → HTTP eşler: 422 `invalid_input` / `outside_coverage` / `address_not_found` / `no_osm_data`, 502 `geocoding_unavailable`, 503 `extract_unavailable` (istek QGIS başlamadan reddedilir; `/health` da kontrol eder), 504 `timeout` (540 sn), 500 `processing_error` (`stderr_tail` ile). API artık `address` da kabul ediyor. n8n: qgis kapalıysa 503 `service_unreachable`. Tablo: README → "Report API". Canlı test: tüm kodlar API'de, adres/bulunamayan adres/Türkiye dışı/boş gövde/servis kapalı n8n webhook'unda doğrulandı; `tests/test_server.py` (44 test geçiyor)
-- [ ] 4b takip: `geocoding_unavailable` mesajı ham `requests` hatasını içeriyor; Sheet'e yazılacaksa 4d'de kısaltılabilir
+- [ ] 4b takip: `geocoding_unavailable` mesajı ham `requests` hatasını içeriyor; e-posta/yanıt metninde kısaltılabilir
 - **Kontrol noktası (4b):** Her hata türü n8n webhook'unda doğru HTTP kodu + anlaşılır mesajla dönüyor. ✅
-- [x] 4c: Teslimat: Drive + link (karar 2026-11-15; Gmail yok). Akış: Succeeded? → Download PDF (`pdf_url`) → Upload to Drive (`Property Reports` klasörü, dosya adı `Location Report - <name|address|lat, lon> - <tarih>.pdf`) → Respond OK (+ `drive_file_id`, `drive_url`). Paylaşım kısıtlı: Drive varsayılanı (yalnızca sahibi), izin değiştirilmez. İndirme/yükleme hatası → 502 `delivery_failed` + `pdf_url`. Credential (`googleDriveOAuth2Api`) ve klasör ID'si repoya girmez; import sonrası node'da seçilir. Uçtan uca test (2026-11-15): Kaş → 200 + `drive_url`
-- [ ] 4c takip: `delivery_failed` dalı canlı test edilmedi (Drive hatasını güvenli şekilde tetiklemek zor); 4d'de Sheet'e durum yazılırken bu dal da Sheet'e yazmalı
-- [ ] 4d: Tetikleyici: Google Sheet yeni satır; Sheet'e durum + PDF linki yaz
+- [x] 4c: Teslimat: **Gmail, PDF ek olarak** (karar 2026-11-15; önce Drive + link yapılıp test edildi, sonra Drive ve Sheet kapsamdan çıkarıldı). Akış: Webhook → Valid Email? (yoksa 422 `invalid_input`, rapor üretilmez) → Generate Report → Succeeded? → Download PDF (`pdf_url`) → Name Attachment (`Location Report - <name|address|lat, lon>.pdf`) → Send Email (alıcı: istekteki `email`) → Respond OK (+ `email_sent_to`, `email_message_id`). İndirme/gönderim hatası → 502 `delivery_failed` + `pdf_url`. Gmail credential repoya girmez; import sonrası node'da seçilir. Uçtan uca test (2026-11-15): e-posta yok / geçersiz → 422, Atina → 422 (e-posta gitmez), Kaş → 200 + e-posta (~17 sn). `delivery_failed` dalı da canlıda doğrulandı (geçersiz OAuth client ile 502 + `pdf_url`)
+- **Kontrol noktası (Faz 4):** Webhook'a konum + e-posta gönderince PDF e-postayla geliyor. ✅
+- [-] ~~4d: Google Sheet tetikleyici~~ iptal (2026-11-15): tetikleyici webhook olarak kalır
 
 ## Faz 5 — Portföy paketi
 - [ ] README (EN): problem, çözüm, mimari diyagram, ekran görüntüleri, kurulum
@@ -61,7 +61,7 @@ Bağlam: public Overpass sunucuları 12–14 Kasım'da güvenilmez çıktı (ev 
 - [ ] README (EN): veri kaynağı: Geofabrik Türkiye extract'ı, nasıl indirilir, extract tarihi, ODbL atıfı ("© OpenStreetMap contributors"), sonuçlar OSM etiket kalitesine bağlı, ~7 sn/sorgu
 - [x] `samples/poi/` içinde 3 örnek lokasyonun POI dosyaları (pbf indirmeden demo görülebilsin)
 - [x] `samples/output/` içine 3 örnek PDF (Faz 4.0'da üretildi)
-- [ ] Loom demosu (2 dk): Sheet'e adres yaz → PDF gelsin
+- [ ] Loom demosu (2 dk): webhook'a adres + e-posta gönder → PDF e-postayla gelsin
 - [ ] Upwork portfolio kartı (EN başlık + 3 maddelik açıklama)
 - [ ] LinkedIn / GIS CV'ye ekle: "PyQGIS automation, OSM data pipeline, n8n"
 

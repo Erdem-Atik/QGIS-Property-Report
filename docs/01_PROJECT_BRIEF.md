@@ -20,15 +20,15 @@ Proje yalnızca Türkiye'yi kapsar. Dünya çapı hedeflenmiyor. Bu, README'de a
 ## Girdi → Çıktı
 | Girdi | Çıktı |
 |---|---|
-| Google Sheet satırı veya webhook ile Türkiye'de bir adres / lat-lon | Harita PDF + GeoPackage + AI konum özeti |
+| Webhook ile Türkiye'de bir adres / lat-lon + alıcı e-postası | Harita PDF (e-postayla) + GeoPackage + AI konum özeti |
 
 ## Akış
-1. Tetikleyici (Google Sheet yeni satır / webhook) → n8n
+1. Tetikleyici (webhook: konum + e-posta) → n8n
 2. Geocoding (Nominatim) → koordinat; sonuç Türkiye dışındaysa dur ve net hata ver
 3. OSM verisi (yerel Geofabrik Türkiye extract'ı, `ogr2ogr` ile okunur): plaj, toplu taşıma, market, restoran, vb. Canlı bir POI servisi yok; internet bağlantısı gerekmez (geocoding ve LLM hariç)
 4. Headless QGIS (PyQGIS): buffer (500 m / 1 km), mesafe hesabı, katman stili, print layout → PDF
 5. LLM: mesafe tablosundan 3-4 cümlelik konum özeti
-6. Çıktı: PDF Drive'a kaydedilir / e-postayla gönderilir, Sheet'e link yazılır
+6. Çıktı: PDF e-postayla (Gmail, ek olarak) gönderilir. Google Sheet / Drive kullanılmaz (karar 2026-11-15)
 
 ## Erişim modeli
 - **Herkes (ücretsiz):** Geofabrik Türkiye extract'ı (~620 MB) bir kez indirilir (`data/` altına, repoya girmez). Ek ücret yok, üçüncü taraf POI servisine bağımlılık yok.
@@ -38,7 +38,7 @@ Proje yalnızca Türkiye'yi kapsar. Dünya çapı hedeflenmiyor. Bu, README'de a
 ## Beceri vitrini
 - Haritacılık: CRS yönetimi, buffer/mesafe analizi, katman stilleri, otomatik layout, OSM ham veri (PBF) işleme
 - Kod: Python, PyQGIS, GDAL/ogr2ogr, API entegrasyonu
-- Otomasyon: n8n, webhook, Sheets/Drive
+- Otomasyon: n8n, webhook, Gmail
 - AI: LLM ile yapılandırılmış veriden metin üretimi
 
 ## Kapsam dışı (bilinçli olarak)

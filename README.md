@@ -12,12 +12,16 @@ and OpenStreetMap data.
 
 `docker compose up -d --build` starts the report service on port 8000 (FastAPI, `qgis/server.py`).
 The n8n workflow (`n8n/workflow.json`) exposes the same contract on its webhook
-(`POST /webhook/property-report`) and also uploads the PDF to Google Drive: its success
-response adds `drive_file_id` and `drive_url`. The Drive file keeps Drive's default
-(private to the owner); no sharing permission is changed.
+(`POST /webhook/property-report`) and emails the PDF as an attachment (Gmail). It needs one
+extra field, the recipient:
 
-After importing the workflow, select a Google Drive OAuth2 credential and the target folder
-in the **Upload to Drive** node (the file in the repo uploads to the Drive root).
+```json
+{"address": "Kaleici, Antalya", "name": "Old Town Apartment", "email": "client@example.com"}
+```
+
+The email is checked before any work is done. The success response adds `email_sent_to`
+and `email_message_id`. After importing the workflow, select a Gmail OAuth2 credential in
+the **Send Email** node; the report is sent from that account.
 
 ```powershell
 # By coordinates
@@ -41,14 +45,14 @@ Every error has the same shape, so callers can branch on `error_code`:
 
 | HTTP | `error_code` | Meaning |
 |---|---|---|
-| 422 | `invalid_input` | Missing/invalid fields, malformed JSON, both `address` and `lat`/`lon` given |
+| 422 | `invalid_input` | Missing/invalid fields, malformed JSON, both `address` and `lat`/`lon` given; n8n: missing or invalid `email` |
 | 422 | `outside_coverage` | Location or address is outside Türkiye |
 | 422 | `address_not_found` | Nominatim found no match for the address |
 | 422 | `no_osm_data` | No OSM data around the point (e.g. at sea); never reported as "0 POIs" |
 | 502 | `geocoding_unavailable` | Nominatim unreachable or returned an error (retry later) |
 | 503 | `extract_unavailable` | OSM extract missing or unreadable (deployment problem) |
 | 503 | `service_unreachable` | n8n only: the report service is not running |
-| 502 | `delivery_failed` | n8n only: the report was generated but the Drive upload failed; `pdf_url` is included |
+| 502 | `delivery_failed` | n8n only: the report was generated but the email could not be sent; `pdf_url` is included |
 | 504 | `timeout` | Report generation exceeded `REPORT_TIMEOUT_S` (default 540 s) |
 | 500 | `processing_error` | Unexpected failure; the response includes `stderr_tail` for debugging |
 
