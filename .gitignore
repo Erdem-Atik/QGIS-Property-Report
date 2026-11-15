@@ -9,4 +9,6 @@ data/
 osm_test/
 *.osm.pbf
 *.osm.pbf.part
-docs\SistemBilgisi.md
+# Local working notes (Turkish) and Claude Code instructions: not part of the published repo
+notes-tr/
+CLAUDE.md
