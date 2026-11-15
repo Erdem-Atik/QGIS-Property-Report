@@ -56,9 +56,9 @@ Bağlam: public Overpass sunucuları 12–14 Kasım'da güvenilmez çıktı (ev 
 - [-] ~~4d: Google Sheet tetikleyici~~ iptal (2026-11-15): tetikleyici webhook olarak kalır
 
 ## Faz 5 — Portföy paketi
-- [ ] README (EN): problem, çözüm, mimari diyagram, ekran görüntüleri, kurulum
-- [ ] README (EN): **kapsam: Coverage is Türkiye only** (Türkiye dışı girdi reddedilir)
-- [ ] README (EN): veri kaynağı: Geofabrik Türkiye extract'ı, nasıl indirilir, extract tarihi, ODbL atıfı ("© OpenStreetMap contributors"), sonuçlar OSM etiket kalitesine bağlı, ~7 sn/sorgu
+- [x] README (EN): problem, çözüm, mimari diyagram (Mermaid, README içinde; ayrı `architecture.png` yerine), ekran görüntüsü (`docs/images/kas_report.png`, örnek PDF'ten GDAL ile), kurulum, API, testler (2026-11-15; kurulum ve CLI komutları çalıştırılarak doğrulandı)
+- [x] README (EN): **kapsam: Coverage is Türkiye only** (Türkiye dışı girdi reddedilir)
+- [x] README (EN): veri kaynağı: Geofabrik Türkiye extract'ı, nasıl indirilir, extract tarihi, ODbL atıfı ("© OpenStreetMap contributors"), sonuçlar OSM etiket kalitesine bağlı, 8–10 sn/sorgu
 - [x] `samples/poi/` içinde 3 örnek lokasyonun POI dosyaları (pbf indirmeden demo görülebilsin)
 - [x] `samples/output/` içine 3 örnek PDF (Faz 4.0'da üretildi)
 - [ ] Loom demosu (2 dk): webhook'a adres + e-posta gönder → PDF e-postayla gelsin
