@@ -1,20 +1,74 @@
 {
-  "id": "propReportWh4a01",
-  "name": "Property Report - Webhook to Email",
+  "id": "propReportSheet4d01",
+  "name": "Property Report - Google Sheet to Email",
   "nodes": [
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "property-report",
-        "responseMode": "responseNode",
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "b2e1d7f3-0001-4d2b-8b01-000000000001",
+      "name": "Every Minute",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cfg1",
+              "name": "sheet_url",
+              "value": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit",
+              "type": "string"
+            },
+            {
+              "id": "cfg2",
+              "name": "sheet_name",
+              "value": "Requests",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
         "options": {}
       },
-      "id": "a1f0c6e2-0001-4c1a-9a01-000000000001",
-      "name": "Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [0, 0],
-      "webhookId": "5b0e7f3c-property-report"
+      "id": "b2e1d7f3-0002-4d2b-8b01-000000000002",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [220, 0],
+      "notes": "Set the Google Sheet URL and the tab name here. Columns: address, lat, lon, name, email, status, error_code, report_id, message, processed_at (see samples/sheet_template.csv).",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Config').first().json.sheet_url }}",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $('Config').first().json.sheet_name }}",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "b2e1d7f3-0003-4d2b-8b01-000000000003",
+      "name": "Read Rows",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [440, 0]
     },
     {
       "parameters": {
@@ -26,8 +80,8 @@
           },
           "conditions": [
             {
-              "id": "e1",
-              "leftValue": "={{ /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(String($json.body?.email ?? '').trim()) }}",
+              "id": "p1",
+              "leftValue": "={{ String($json.status ?? '').trim() === '' && String($json.email ?? '').trim() !== '' && (String($json.address ?? '').trim() !== '' || (String($json.lat ?? '').trim() !== '' && String($json.lon ?? '').trim() !== '')) }}",
               "rightValue": "",
               "operator": {
                 "type": "boolean",
@@ -40,25 +94,117 @@
         },
         "options": {}
       },
-      "id": "a1f0c6e2-0009-4c1a-9a01-000000000009",
-      "name": "Valid Email?",
-      "type": "n8n-nodes-base.if",
+      "id": "b2e1d7f3-0004-4d2b-8b01-000000000004",
+      "name": "Pending Rows",
+      "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
-      "position": [220, 0]
+      "position": [660, 0],
+      "notes": "Rows with an empty status, an email and a location (address, or lat + lon). Clear the status cell to run a row again.",
+      "notesInFlow": true
     },
     {
       "parameters": {
-        "respondWith": "json",
-        "responseBody": "={{ { status: 'error', job: null, error_code: 'invalid_input', error: 'email: a valid recipient email address is required' } }}",
-        "options": {
-          "responseCode": 422
-        }
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ps1",
+              "name": "row_number",
+              "value": "={{ $json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "ps2",
+              "name": "status",
+              "value": "processing",
+              "type": "string"
+            },
+            {
+              "id": "ps3",
+              "name": "processed_at",
+              "value": "={{ $now.toFormat('yyyy-MM-dd HH:mm:ss') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
       },
-      "id": "a1f0c6e2-0010-4c1a-9a01-000000000010",
-      "name": "Respond Invalid Email",
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.1,
-      "position": [440, 200]
+      "id": "b2e1d7f3-0005-4d2b-8b01-000000000005",
+      "name": "Status Processing",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [880, -240]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Config').first().json.sheet_url }}",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $('Config').first().json.sheet_name }}",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": ["row_number"],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "b2e1d7f3-0006-4d2b-8b01-000000000006",
+      "name": "Mark Processing",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1100, -240],
+      "notes": "Runs before the reports, so a run that starts a minute later does not pick the same rows.",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "e1",
+              "leftValue": "={{ /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(String($json.email ?? '').trim()) }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b2e1d7f3-0007-4d2b-8b01-000000000007",
+      "name": "Valid Email?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [880, 0]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Turn one sheet row into a /generate request.\n// lat + lon filled -> coordinates; otherwise the address is geocoded.\n// Accepts decimal commas (36,2018) as typed in a Turkish-locale sheet.\nconst row = $input.item.json;\nconst text = (v) => String(v ?? '').trim();\nconst num = (v) => Number(text(v).replace(',', '.'));\n\nconst request = {};\nif (text(row.lat) !== '' && text(row.lon) !== '') {\n  request.lat = num(row.lat);\n  request.lon = num(row.lon);\n} else {\n  request.address = text(row.address);\n}\nif (text(row.name)) request.name = text(row.name);\n\nconst label = text(row.name || row.address || `${text(row.lat)}, ${text(row.lon)}`)\n  .replace(/[\\\\/:*?\"<>|]+/g, ' ').replace(/\\s+/g, ' ').trim().slice(0, 80);\n\nreturn {\n  json: {\n    row_number: row.row_number,\n    email: text(row.email),\n    label,\n    request,\n  },\n};"
+      },
+      "id": "b2e1d7f3-0008-4d2b-8b01-000000000008",
+      "name": "Build Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1100, -60]
     },
     {
       "parameters": {
@@ -66,8 +212,14 @@
         "url": "http://host.docker.internal:8000/generate",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ lat: $json.body.lat, lon: $json.body.lon, address: $json.body.address, name: $json.body.name }) }}",
+        "jsonBody": "={{ JSON.stringify($json.request) }}",
         "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 0
+            }
+          },
           "timeout": 630000,
           "response": {
             "response": {
@@ -77,12 +229,14 @@
           }
         }
       },
-      "id": "a1f0c6e2-0002-4c1a-9a01-000000000002",
+      "id": "b2e1d7f3-0009-4d2b-8b01-000000000009",
       "name": "Generate Report",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "onError": "continueRegularOutput",
-      "position": [440, -100]
+      "position": [1320, -60],
+      "notes": "One report at a time (batch size 1).",
+      "notesInFlow": true
     },
     {
       "parameters": {
@@ -107,25 +261,11 @@
         },
         "options": {}
       },
-      "id": "a1f0c6e2-0003-4c1a-9a01-000000000003",
+      "id": "b2e1d7f3-0010-4d2b-8b01-000000000010",
       "name": "Succeeded?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [660, -100]
-    },
-    {
-      "parameters": {
-        "respondWith": "json",
-        "responseBody": "={{ $json.body ?? { status: 'error', job: null, error_code: 'service_unreachable', error: 'Report service is not reachable: ' + ($json.error?.message ?? 'unknown error') } }}",
-        "options": {
-          "responseCode": "={{ $json.statusCode ?? 503 }}"
-        }
-      },
-      "id": "a1f0c6e2-0005-4c1a-9a01-000000000005",
-      "name": "Respond Error",
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.1,
-      "position": [880, 100]
+      "position": [1540, -60]
     },
     {
       "parameters": {
@@ -140,27 +280,28 @@
           }
         }
       },
-      "id": "a1f0c6e2-0006-4c1a-9a01-000000000006",
+      "id": "b2e1d7f3-0011-4d2b-8b01-000000000011",
       "name": "Download PDF",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "onError": "continueErrorOutput",
-      "position": [880, -200]
+      "position": [1760, -160]
     },
     {
       "parameters": {
-        "jsCode": "// Give the attachment a readable name instead of report.pdf.\nconst req = $('Webhook').first().json.body;\nconst label = String(req.name || req.address || `${req.lat}, ${req.lon}`)\n  .replace(/[\\\\/:*?\"<>|]+/g, ' ').replace(/\\s+/g, ' ').trim().slice(0, 80);\nconst item = $input.first();\nitem.binary.data.fileName = `Location Report - ${label}.pdf`;\nitem.json.label = label;\nreturn [item];"
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Give the attachment a readable name instead of report.pdf.\nconst label = $('Build Request').item.json.label;\nconst item = $input.item;\nitem.binary.data.fileName = `Location Report - ${label}.pdf`;\nitem.json.label = label;\nreturn item;"
       },
-      "id": "a1f0c6e2-0011-4c1a-9a01-000000000011",
+      "id": "b2e1d7f3-0012-4d2b-8b01-000000000012",
       "name": "Name Attachment",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "onError": "continueErrorOutput",
-      "position": [1100, -200]
+      "position": [1980, -160]
     },
     {
       "parameters": {
-        "sendTo": "={{ String($('Webhook').item.json.body.email).trim() }}",
+        "sendTo": "={{ $('Build Request').item.json.email }}",
         "subject": "={{ 'Location report: ' + $json.label }}",
         "emailType": "text",
         "message": "={{ 'Hello,\\n\\nPlease find attached the location report for ' + $json.label + '.\\n\\nThe report shows nearby amenities within 500 m and 1 km, straight-line distances to the nearest place in each category, and a short location summary.\\n\\nCoverage: Türkiye only. Map data © OpenStreetMap contributors.\\n\\nReport ID: ' + $('Generate Report').item.json.body.job }}",
@@ -175,52 +316,279 @@
           }
         }
       },
-      "id": "a1f0c6e2-0007-4c1a-9a01-000000000007",
+      "id": "b2e1d7f3-0013-4d2b-8b01-000000000013",
       "name": "Send Email",
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "onError": "continueErrorOutput",
-      "position": [1320, -200],
-      "webhookId": "c7d1e2f3-property-report-gmail"
+      "position": [2200, -160],
+      "webhookId": "d8e2f3a4-property-report-sheet-gmail"
     },
     {
       "parameters": {
-        "respondWith": "json",
-        "responseBody": "={{ { ...$('Generate Report').item.json.body, email_sent_to: String($('Webhook').item.json.body.email).trim(), email_message_id: $json.id } }}",
-        "options": {
-          "responseCode": 200
-        }
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "s1",
+              "name": "row_number",
+              "value": "={{ $('Build Request').item.json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "s2",
+              "name": "status",
+              "value": "sent",
+              "type": "string"
+            },
+            {
+              "id": "s3",
+              "name": "error_code",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "s4",
+              "name": "report_id",
+              "value": "={{ $('Generate Report').item.json.body.job }}",
+              "type": "string"
+            },
+            {
+              "id": "s5",
+              "name": "message",
+              "value": "={{ 'Emailed to ' + $('Build Request').item.json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "s6",
+              "name": "processed_at",
+              "value": "={{ $now.toFormat('yyyy-MM-dd HH:mm:ss') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
       },
-      "id": "a1f0c6e2-0004-4c1a-9a01-000000000004",
-      "name": "Respond OK",
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.1,
-      "position": [1540, -300]
+      "id": "b2e1d7f3-0014-4d2b-8b01-000000000014",
+      "name": "Result Sent",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [2420, -260]
     },
     {
       "parameters": {
-        "respondWith": "json",
-        "responseBody": "={{ { status: 'error', job: $('Generate Report').item.json.body.job, error_code: 'delivery_failed', error: 'Report was generated but the email could not be sent: ' + ($json.error?.message ?? $json.error ?? 'unknown error'), pdf_url: $('Generate Report').item.json.body.pdf_url } }}",
-        "options": {
-          "responseCode": 502
-        }
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d1",
+              "name": "row_number",
+              "value": "={{ $('Build Request').item.json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "d2",
+              "name": "status",
+              "value": "error",
+              "type": "string"
+            },
+            {
+              "id": "d3",
+              "name": "error_code",
+              "value": "delivery_failed",
+              "type": "string"
+            },
+            {
+              "id": "d4",
+              "name": "report_id",
+              "value": "={{ $('Generate Report').item.json.body.job }}",
+              "type": "string"
+            },
+            {
+              "id": "d5",
+              "name": "message",
+              "value": "={{ 'Report was generated but the email could not be sent: ' + ($json.error?.message ?? $json.error ?? 'unknown error') }}",
+              "type": "string"
+            },
+            {
+              "id": "d6",
+              "name": "processed_at",
+              "value": "={{ $now.toFormat('yyyy-MM-dd HH:mm:ss') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
       },
-      "id": "a1f0c6e2-0008-4c1a-9a01-000000000008",
-      "name": "Respond Delivery Error",
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.1,
-      "position": [1540, -100]
+      "id": "b2e1d7f3-0015-4d2b-8b01-000000000015",
+      "name": "Result Delivery Failed",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [2420, -60]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "r1",
+              "name": "row_number",
+              "value": "={{ $('Build Request').item.json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "r2",
+              "name": "status",
+              "value": "error",
+              "type": "string"
+            },
+            {
+              "id": "r3",
+              "name": "error_code",
+              "value": "={{ $json.body?.error_code ?? 'service_unreachable' }}",
+              "type": "string"
+            },
+            {
+              "id": "r4",
+              "name": "report_id",
+              "value": "={{ $json.body?.job ?? '' }}",
+              "type": "string"
+            },
+            {
+              "id": "r5",
+              "name": "message",
+              "value": "={{ $json.body?.error ?? ('Report service is not reachable: ' + ($json.error?.message ?? 'unknown error')) }}",
+              "type": "string"
+            },
+            {
+              "id": "r6",
+              "name": "processed_at",
+              "value": "={{ $now.toFormat('yyyy-MM-dd HH:mm:ss') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "id": "b2e1d7f3-0016-4d2b-8b01-000000000016",
+      "name": "Result Report Error",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [2420, 140]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "i1",
+              "name": "row_number",
+              "value": "={{ $json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "i2",
+              "name": "status",
+              "value": "error",
+              "type": "string"
+            },
+            {
+              "id": "i3",
+              "name": "error_code",
+              "value": "invalid_input",
+              "type": "string"
+            },
+            {
+              "id": "i4",
+              "name": "report_id",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "i5",
+              "name": "message",
+              "value": "email: a valid recipient email address is required",
+              "type": "string"
+            },
+            {
+              "id": "i6",
+              "name": "processed_at",
+              "value": "={{ $now.toFormat('yyyy-MM-dd HH:mm:ss') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "id": "b2e1d7f3-0017-4d2b-8b01-000000000017",
+      "name": "Result Invalid Email",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [2420, 340]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Config').first().json.sheet_url }}",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $('Config').first().json.sheet_name }}",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": ["row_number"],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "b2e1d7f3-0018-4d2b-8b01-000000000018",
+      "name": "Write Result",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [2660, 40]
     }
   ],
   "connections": {
-    "Webhook": {
-      "main": [[{ "node": "Valid Email?", "type": "main", "index": 0 }]]
+    "Every Minute": {
+      "main": [[{ "node": "Config", "type": "main", "index": 0 }]]
+    },
+    "Config": {
+      "main": [[{ "node": "Read Rows", "type": "main", "index": 0 }]]
+    },
+    "Read Rows": {
+      "main": [[{ "node": "Pending Rows", "type": "main", "index": 0 }]]
+    },
+    "Pending Rows": {
+      "main": [
+        [
+          { "node": "Status Processing", "type": "main", "index": 0 },
+          { "node": "Valid Email?", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Status Processing": {
+      "main": [[{ "node": "Mark Processing", "type": "main", "index": 0 }]]
     },
     "Valid Email?": {
       "main": [
-        [{ "node": "Generate Report", "type": "main", "index": 0 }],
-        [{ "node": "Respond Invalid Email", "type": "main", "index": 0 }]
+        [{ "node": "Build Request", "type": "main", "index": 0 }],
+        [{ "node": "Result Invalid Email", "type": "main", "index": 0 }]
       ]
+    },
+    "Build Request": {
+      "main": [[{ "node": "Generate Report", "type": "main", "index": 0 }]]
     },
     "Generate Report": {
       "main": [[{ "node": "Succeeded?", "type": "main", "index": 0 }]]
@@ -228,26 +596,38 @@
     "Succeeded?": {
       "main": [
         [{ "node": "Download PDF", "type": "main", "index": 0 }],
-        [{ "node": "Respond Error", "type": "main", "index": 0 }]
+        [{ "node": "Result Report Error", "type": "main", "index": 0 }]
       ]
     },
     "Download PDF": {
       "main": [
         [{ "node": "Name Attachment", "type": "main", "index": 0 }],
-        [{ "node": "Respond Delivery Error", "type": "main", "index": 0 }]
+        [{ "node": "Result Delivery Failed", "type": "main", "index": 0 }]
       ]
     },
     "Name Attachment": {
       "main": [
         [{ "node": "Send Email", "type": "main", "index": 0 }],
-        [{ "node": "Respond Delivery Error", "type": "main", "index": 0 }]
+        [{ "node": "Result Delivery Failed", "type": "main", "index": 0 }]
       ]
     },
     "Send Email": {
       "main": [
-        [{ "node": "Respond OK", "type": "main", "index": 0 }],
-        [{ "node": "Respond Delivery Error", "type": "main", "index": 0 }]
+        [{ "node": "Result Sent", "type": "main", "index": 0 }],
+        [{ "node": "Result Delivery Failed", "type": "main", "index": 0 }]
       ]
+    },
+    "Result Sent": {
+      "main": [[{ "node": "Write Result", "type": "main", "index": 0 }]]
+    },
+    "Result Delivery Failed": {
+      "main": [[{ "node": "Write Result", "type": "main", "index": 0 }]]
+    },
+    "Result Report Error": {
+      "main": [[{ "node": "Write Result", "type": "main", "index": 0 }]]
+    },
+    "Result Invalid Email": {
+      "main": [[{ "node": "Write Result", "type": "main", "index": 0 }]]
     }
   },
   "settings": {
