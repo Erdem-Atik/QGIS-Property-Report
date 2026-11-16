@@ -1,0 +1,3 @@
+address,lat,lon,name,email,status,error_code,report_id,message,processed_at
+"Kaleici, Antalya",,,Old Town Apartment,client@example.com,,,,,
+,36.2018,29.6377,Kas Harbour Villa,client@example.com,,,,,

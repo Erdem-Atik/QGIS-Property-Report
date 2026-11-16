@@ -2,6 +2,7 @@ services:
   qgis:
     build: ./qgis
     image: qgis-property-report:dev
+    restart: unless-stopped   # come back up with Docker; the Sheet workflow runs unattended
     env_file:
       - path: .env          # optional: OSM_USER_AGENT, LLM_* (see .env.example)
         required: false

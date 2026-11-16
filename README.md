@@ -1,7 +1,7 @@
 # Property Location Report Generator
 
-Send an address or a coordinate in Türkiye, get back a one-page PDF location report
-by email: a map with 500 m / 1 km radius rings, nearby amenities by category,
+Add an address or a coordinate in Türkiye as a row in a Google Sheet, get back a one-page
+PDF location report by email: a map with 500 m / 1 km radius rings, nearby amenities by category,
 straight-line distances to the nearest of each, and a short AI-written summary that sticks
 to the numbers.
 
@@ -39,7 +39,7 @@ and `pois.geojson`.
 
 ```mermaid
 flowchart LR
-    A["Client<br/>POST location + email"] --> B["n8n webhook"]
+    S["Google Sheet<br/>one row per property"] <-->|"new rows · status"| B["n8n<br/>workflow (every minute)"]
     B -->|"POST /generate"| C["Report API<br/>(FastAPI, Docker)"]
     C --> D["Nominatim<br/>(address → coordinate)"]
     C --> E["Geofabrik Türkiye extract<br/>(local .osm.pbf, GDAL)"]
@@ -49,7 +49,8 @@ flowchart LR
     B --> H["Gmail<br/>PDF as attachment"]
 ```
 
-1. **Input:** an address (geocoded with Nominatim) or a latitude/longitude, plus a recipient email.
+1. **Input:** a row in a Google Sheet with an address (geocoded with Nominatim) or a
+   latitude/longitude, plus a recipient email.
 2. **Coverage check:** anything outside Türkiye stops here with a clear error.
 3. **POIs:** read from a local copy of the Geofabrik Türkiye extract with GDAL's OSM driver.
    Both points and areas are used; an area (a beach, a supermarket building) stays a polygon
@@ -59,7 +60,7 @@ flowchart LR
    in degrees. Amenities are counted per ring and the nearest one per category is found.
 5. **Layout:** layer styles (`.qml`) and a print layout template (`.qpt`) produce an A4 PDF.
 6. **Summary:** the table is sent to an OpenAI-compatible LLM; if that fails the PDF is still produced.
-7. **Delivery:** n8n emails the PDF as an attachment and returns a JSON result to the caller.
+7. **Delivery:** n8n emails the PDF as an attachment and writes the result into the same row.
 
 ## Tech stack
 
@@ -70,7 +71,7 @@ flowchart LR
 | POI data | Geofabrik Türkiye extract (`turkey-latest.osm.pbf`), read locally |
 | Geocoding | Nominatim (max 1 request/s, cached, identifying User-Agent) |
 | Report API | FastAPI + uvicorn |
-| Orchestration | n8n (webhook, HTTP request, Gmail) |
+| Orchestration | n8n (Google Sheet input, HTTP request, Gmail) |
 | AI summary | Any OpenAI-compatible chat API (tested with Groq) |
 | Output | PDF, GeoPackage, JSON |
 
@@ -103,8 +104,8 @@ Files are written to `out\<job>\`. The same pipeline runs from the command line:
 docker compose run --rm qgis python3 generate_report.py --address "Kaleici, Antalya" --name "Old Town Apartment" --out /out/kaleici
 ```
 
-**n8n (email delivery):** import `n8n/workflow.json`, select a Gmail OAuth2 credential in the
-**Send Email** node, and publish. n8n reaches the API at `http://host.docker.internal:8000`.
+**n8n (Google Sheet → email):** see [Google Sheet input](#google-sheet-input).
+n8n reaches the API at `http://host.docker.internal:8000`.
 
 ## Report API
 
@@ -123,15 +124,6 @@ Invoke-RestMethod -Method Post -Uri http://localhost:8000/generate -ContentType 
 Success (`200`) returns `job`, `pdf_url`, `summary_url` and the list of output files.
 `GET /files/{job}/{name}` downloads a file; `GET /health` also checks that the OSM extract is present.
 
-The n8n webhook (`POST /webhook/property-report`) takes the same fields plus the recipient:
-
-```json
-{"address": "Kaleici, Antalya", "name": "Old Town Apartment", "email": "client@example.com"}
-```
-
-The email is checked before any work is done. The success response adds `email_sent_to`
-and `email_message_id`. The report is sent from the Gmail account of the selected credential.
-
 Every error has the same shape, so callers can branch on `error_code`:
 
 ```json
@@ -141,18 +133,49 @@ Every error has the same shape, so callers can branch on `error_code`:
 
 | HTTP | `error_code` | Meaning |
 |---|---|---|
-| 422 | `invalid_input` | Missing/invalid fields, malformed JSON, both `address` and `lat`/`lon` given; n8n: missing or invalid `email` |
+| 422 | `invalid_input` | Missing/invalid fields, malformed JSON, both `address` and `lat`/`lon` given; sheet: missing or invalid `email` |
 | 422 | `outside_coverage` | Location or address is outside Türkiye |
 | 422 | `address_not_found` | Nominatim found no match for the address |
 | 422 | `no_osm_data` | No OSM data around the point (e.g. at sea); never reported as "0 POIs" |
 | 502 | `geocoding_unavailable` | Nominatim unreachable or returned an error (retry later) |
-| 502 | `delivery_failed` | n8n only: the report was generated but the email could not be sent; `pdf_url` is included |
+| 502 | `delivery_failed` | Sheet only: the report was generated but the email could not be sent |
 | 503 | `extract_unavailable` | OSM extract missing or unreadable (deployment problem) |
-| 503 | `service_unreachable` | n8n only: the report API is not running |
+| 503 | `service_unreachable` | Sheet only: the report API is not running |
 | 504 | `timeout` | Report generation exceeded `REPORT_TIMEOUT_S` (default 540 s) |
 | 500 | `processing_error` | Unexpected failure; the response includes `stderr_tail` for debugging |
 
-4xx errors are input problems (fix the request); 5xx errors are service problems (retry or check the deployment).
+4xx errors are input problems (fix the request or row); 5xx errors are service problems (retry or check the deployment).
+In the Google Sheet the same `error_code` is written to the row.
+
+## Google Sheet input
+
+Add a row to a Google Sheet and the report arrives by email. Several rows at once work too; they are processed one after another.
+
+| address | lat | lon | name | email | status | error_code | report_id | message | processed_at |
+|---|---|---|---|---|---|---|---|---|---|
+| Kaleici, Antalya | | | Old Town Apartment | client@example.com | sent | | 20261115-… | Emailed to client@example.com | 2026-11-15 14:02:11 |
+| | 36.2018 | 29.6377 | Kas Harbour Villa | client@example.com | | | | | |
+| Acropolis, Athens | | | | client@example.com | error | outside_coverage | 20261115-… | … is not in Türkiye … | 2026-11-15 14:02:40 |
+
+- Fill in **either** `address` **or** `lat` + `lon` (if both are filled, the coordinates are used),
+  plus `email`; `name` is optional. Decimal commas (`36,2018`) are accepted.
+- Addresses are geocoded with OpenStreetMap, where Turkish street addresses and house numbers
+  are often incomplete. Include the district and city (`Esenyurt Sokak 18, Maltepe, İstanbul`)
+  and leave out flat numbers; if a row ends with `address_not_found`, use `lat` + `lon` instead
+  (in Google Maps, right-click the building to copy its coordinates).
+- Leave the last five columns empty; the workflow fills them in. `status` goes
+  *(empty)* → `processing` → `sent` or `error`, and `error_code` uses the same codes as the API.
+- To run a row again, clear its `status` cell.
+- The sheet is checked once a minute, so a report arrives about 1–2 minutes after the row is added.
+
+Setup:
+
+1. Create a Google Sheet with the header row from [`samples/sheet_template.csv`](samples/sheet_template.csv)
+   (or import the file: *File → Import*).
+2. Import `n8n/workflow.json` into n8n.
+3. In the **Config** node, paste the sheet URL and the tab name.
+4. Select a Google Sheets OAuth2 credential in **Read Rows**, **Mark Processing** and **Write Result**,
+   and a Gmail credential in **Send Email**; then publish the workflow.
 
 ## LLM settings (AI location summary)
 
@@ -209,7 +232,7 @@ qgis/
     llm.py               # AI summary from summary.json
   styles/  templates/    # .qml layer styles, .qpt print layout
   tests/                 # unit tests (small OSM fixture; LLM client mocked)
-n8n/workflow.json        # webhook -> report API -> Gmail
+n8n/workflow.json        # Google Sheet rows -> report API -> Gmail -> status back to the row
 scripts/download_extract.ps1
 samples/                 # sample POI files and PDFs (no extract needed to view them)
 ```
