@@ -163,6 +163,9 @@ Add a row to a Google Sheet and the report arrives by email. Several rows at onc
   are often incomplete. Include the district and city (`Esenyurt Sokak 18, Maltepe, İstanbul`)
   and leave out flat numbers; if a row ends with `address_not_found`, use `lat` + `lon` instead
   (in Google Maps, right-click the building to copy its coordinates).
+- For an exact property location, prefer `lat` + `lon`. A partial address can match a place with
+  the same name elsewhere (e.g. `Paşa Mahallesi, Akhisar` resolves to Sakarya, not Manisa), and the
+  report is then produced for the wrong location without an error.
 - Leave the last five columns empty; the workflow fills them in. `status` goes
   *(empty)* → `processing` → `sent` or `error`, and `error_code` uses the same codes as the API.
 - To run a row again, clear its `status` cell.
