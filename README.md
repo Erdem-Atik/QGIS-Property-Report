@@ -248,3 +248,9 @@ docker compose run --rm qgis python3 -m unittest discover -s tests -v
 
 POI tests read a small hand-made OSM file through the real GDAL driver; tests against the
 real extract are skipped when it is not present. LLM tests mock the API client (no network).
+
+## License
+
+Code: [MIT](LICENSE). Map data and the bundled samples (`samples/poi/`, `samples/output/`,
+`docs/images/`) contain OpenStreetMap data © OpenStreetMap contributors, available under the
+[Open Database License (ODbL)](https://www.openstreetmap.org/copyright).
