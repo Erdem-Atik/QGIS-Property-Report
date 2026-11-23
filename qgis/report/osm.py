@@ -116,7 +116,10 @@ def geocode(address: str) -> dict:
         }
         _cache_put("nominatim", key, result)
     if result["country_code"] != COUNTRY_CODE:
-        raise OutsideCoverageError(f"Address is not in Türkiye ({result['display_name']}). "
-                                   "Coverage: Türkiye only.")
+        # Report the input and the country code, not display_name: Nominatim returns
+        # display_name in the local language (e.g. Greek), which is unreadable here.
+        country = (result["country_code"] or "unknown").upper()
+        raise OutsideCoverageError(f"Address is not in Türkiye: {address!r} was found in "
+                                   f"country {country}. Coverage: Türkiye only.")
     return result
 
