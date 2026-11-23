@@ -107,6 +107,73 @@ docker compose run --rm qgis python3 generate_report.py --address "Kaleici, Anta
 **n8n (Google Sheet → email):** see [Google Sheet input](#google-sheet-input).
 n8n reaches the API at `http://host.docker.internal:8000`.
 
+## OSM data (Geofabrik extract)
+
+All amenities in the report come from one file on your disk: the **Türkiye extract** of
+OpenStreetMap published by [Geofabrik](https://download.geofabrik.de/). It is not in the
+repository (about 620 MB) and not in the Docker image; you download it once and the container
+reads it from `data\`.
+
+**Where to find it:** [download.geofabrik.de/europe/turkey.html](https://download.geofabrik.de/europe/turkey.html)
+→ the `.osm.pbf` file, `turkey-latest.osm.pbf`
+(direct link: `https://download.geofabrik.de/europe/turkey-latest.osm.pbf`).
+Geofabrik rebuilds it daily from OpenStreetMap; the page shows the date of the current file.
+Use the `.osm.pbf` file; the other formats on that page are not used.
+
+**Option A: download script (recommended, Windows PowerShell)**
+
+```powershell
+.\scripts\download_extract.ps1
+```
+
+It downloads the file to `data\turkey-latest.osm.pbf`, checks it against Geofabrik's MD5
+checksum (a broken download is deleted, not used) and saves the file date to
+`data\turkey-latest.osm.pbf.timestamp`. If the file already exists it does nothing.
+
+**Option B: manual download (any OS)**
+
+1. Download `turkey-latest.osm.pbf` and `turkey-latest.osm.pbf.md5` from the page above.
+2. Compare checksums: the hash must match the first value in the `.md5` file.
+   - Windows: `Get-FileHash .\turkey-latest.osm.pbf -Algorithm MD5`
+   - macOS: `md5 turkey-latest.osm.pbf` · Linux: `md5sum turkey-latest.osm.pbf`
+3. Put the file in the `data` folder of the repository, with exactly this name:
+
+```
+qgis-property-report/
+└── data/
+    └── turkey-latest.osm.pbf
+```
+
+**How the container finds it:** `docker-compose.yml` mounts `./data` read-only at `/data` and
+sets `OSM_PBF_PATH=/data/turkey-latest.osm.pbf`. To use another folder or file name, change the
+`./data` volume or `OSM_PBF_PATH` in `docker-compose.yml` (a value in `.env` is overridden by
+the compose file).
+
+**Check that it is deployed:**
+
+```powershell
+Invoke-RestMethod http://localhost:8000/health
+# {"status":"ok","osm_extract":{"path":"/data/turkey-latest.osm.pbf","ok":true,"size_mb":654}}
+```
+
+If the file is missing, `/health` and every report request return `503 extract_unavailable`
+instead of starting a report.
+
+**Update to newer OSM data:**
+
+```powershell
+.\scripts\download_extract.ps1 -Force
+```
+
+No rebuild or restart is needed: each report opens the file again, so the next report uses the
+new data. The script downloads to a temporary `.part` file and replaces the old one only after
+the checksum matches. Each report's source note shows the OSM data date of the file it used
+(read from the file header, or from the `.timestamp` file).
+
+**Other regions:** coverage is Türkiye only by design. Geofabrik has extracts for other
+countries, but the coverage check rejects locations outside Türkiye, so swapping the file alone
+is not enough.
+
 ## Report API
 
 `POST /generate` takes either an address or a coordinate; `name` is optional.
@@ -207,8 +274,8 @@ Only Groq has been tested so far. Behaviour:
 - Map data and basemap © OpenStreetMap contributors (ODbL).
 - POIs are read from a local copy of the [Geofabrik Türkiye extract](https://download.geofabrik.de/europe/turkey.html).
   No third-party POI API is called, so POI lookup works offline. The extract is not part of the
-  repository; `scripts/download_extract.ps1` downloads it and `docker-compose.yml` mounts `./data`
-  read-only into the container (`OSM_PBF_PATH`).
+  repository; see [OSM data (Geofabrik extract)](#osm-data-geofabrik-extract) for download,
+  deployment and updates.
 - The OSM data date of the extract is shown in every report's source note.
   Bundled samples (`samples/poi/`, `samples/output/`) use OSM data of 2026-11-12.
   Re-run the download script to refresh the data.
