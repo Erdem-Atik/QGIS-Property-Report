@@ -20,3 +20,27 @@ services:
     ports:
       - "8000:8000"    # report API (server.py)
     command: ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  # Optional: n8n for the Google Sheet -> email workflow (docs/DEPLOYMENT.md).
+  # Start with:  docker compose --profile n8n up -d
+  # Skip it if you already run n8n elsewhere; the workflow reaches the API at
+  # http://host.docker.internal:8000 either way.
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:2.34.4   # version the workflow was tested with
+    profiles: ["n8n"]
+    restart: unless-stopped
+    ports:
+      - "${N8N_PORT:-5678}:5678"
+    environment:
+      GENERIC_TIMEZONE: ${TZ:-Europe/Istanbul}   # time zone for the schedule and processed_at
+      TZ: ${TZ:-Europe/Istanbul}
+      # Public address of the editor; Google OAuth redirects back to it.
+      N8N_EDITOR_BASE_URL: http://localhost:${N8N_PORT:-5678}/
+      WEBHOOK_URL: http://localhost:${N8N_PORT:-5678}/
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # needed on Linux; Docker Desktop has it built in
+    volumes:
+      - n8n_data:/home/node/.n8n                # workflows, credentials, encryption key
+
+volumes:
+  n8n_data:

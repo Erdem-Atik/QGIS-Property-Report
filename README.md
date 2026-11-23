@@ -104,8 +104,9 @@ Files are written to `out\<job>\`. The same pipeline runs from the command line:
 docker compose run --rm qgis python3 generate_report.py --address "Kaleici, Antalya" --name "Old Town Apartment" --out /out/kaleici
 ```
 
-**n8n (Google Sheet → email):** see [Google Sheet input](#google-sheet-input).
-n8n reaches the API at `http://host.docker.internal:8000`.
+**Full setup with n8n, Google Sheet and Gmail:** step-by-step guide in
+[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) (about 30–45 minutes, mostly the one-time Google setup).
+n8n can run from this project: `docker compose --profile n8n up -d`.
 
 ## OSM data (Geofabrik extract)
 
@@ -238,7 +239,7 @@ Add a row to a Google Sheet and the report arrives by email. Several rows at onc
 - To run a row again, clear its `status` cell.
 - The sheet is checked once a minute, so a report arrives about 1–2 minutes after the row is added.
 
-Setup:
+Setup in short (details, Google OAuth and troubleshooting: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)):
 
 1. Create a Google Sheet with the header row from [`samples/sheet_template.csv`](samples/sheet_template.csv)
    (or import the file: *File → Import*).
@@ -303,6 +304,7 @@ qgis/
   styles/  templates/    # .qml layer styles, .qpt print layout
   tests/                 # unit tests (small OSM fixture; LLM client mocked)
 n8n/workflow.json        # Google Sheet rows -> report API -> Gmail -> status back to the row
+docs/DEPLOYMENT.md       # step-by-step setup of the whole system (n8n, Google OAuth, Sheet)
 scripts/download_extract.ps1
 samples/                 # sample POI files and PDFs (no extract needed to view them)
 ```
